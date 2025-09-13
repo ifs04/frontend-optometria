@@ -1,1 +1,40 @@
-<p>show-appointments works!</p>
+<div class="card p-1">
+  <div class="flex flex-wrap gap-4 justify-end mb-4">
+    <p-button
+      type="button"
+      icon="pi pi-plus"
+      label="Nueva Cita"
+      [routerLink]="['/appointments/new']">
+    </p-button>
+  </div>
+
+  <p-table
+    [value]="appointments"
+    showGridlines
+    [tableStyle]="{ 'min-width': '60rem' }">
+
+    <ng-template #header>
+      <tr>
+        <th>Id</th>
+        <th>Paciente</th>
+        <th>Optometra Id</th>
+        <th>Fecha</th>
+        <th>Motivo</th>
+        <th>Estado</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-appointment>
+      <tr>
+        <td>{{ appointment.id }}</td>
+        <td>{{ appointment.patientId }}</td>
+        <td>{{ appointment.optometristId }}</td>
+        <td>{{ appointment.date | date:'dd/MM/yyyy' }}</td>
+        <td>{{ appointment.reason }}</td>
+        <td>{{ appointment.status }}</td>
+
+      </tr>
+    </ng-template>
+    
+  </p-table>
+</div>

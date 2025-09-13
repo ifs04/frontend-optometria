@@ -1,1 +1,38 @@
-<p>show-visual-histories works!</p>
+<div class="card p-8">
+
+  <div class="flex justify-end mb-4">
+    <button
+      pButton
+      type="button"
+      class="p-button p-component bg-primary text-white"
+      icon="pi pi-plus"
+      label="Nueva Historia Visual"
+      [routerLink]="['/visual-histories/new']"
+    ></button>
+  </div>
+
+ 
+  <p-table
+    [value]="visualHistories"
+    showGridlines
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Id</th>
+        <th>Paciente</th>
+        <th>Observaciones</th>
+        <th>Fecha de creación</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-history>
+      <tr>
+        <td>{{ history.id }}</td>
+        <td>{{ history.patientId }}</td>
+        <td>{{ history.observations }}</td>
+        <td>{{ history.date | date:'dd/MM/yyyy' }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

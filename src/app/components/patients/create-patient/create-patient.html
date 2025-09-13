@@ -1,1 +1,78 @@
-<p>create-patient works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Registrar Paciente</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+   
+    <div>
+      <label class="block mb-1 font-semibold">Nombre</label>
+      <input pInputText formControlName="name" class="w-full" />
+    </div>
+
+    
+    <div>
+      <label class="block mb-1 font-semibold">Edad</label>
+      <input pInputText type="number" formControlName="age" class="w-full" />
+    </div>
+
+
+    <div>
+      <label class="block mb-1 font-semibold">Tipo de Documento</label>
+      <select formControlName="documentType" class="w-full p-inputtext rounded border border-gray-300">
+        <option value="">Seleccione...</option>
+        <option value="CC">Cédula de Ciudadanía</option>
+        <option value="TI">Tarjeta de Identidad</option>
+        <option value="PP">Pasaporte</option>
+      </select>
+    </div>
+
+
+    <div>
+      <label class="block mb-1 font-semibold">Número de Documento</label>
+      <input pInputText formControlName="documentNumber" class="w-full" />
+    </div>
+
+ 
+    <div>
+      <label class="block mb-1 font-semibold">Género</label>
+      <select formControlName="gender" class="w-full p-inputtext rounded border border-gray-300">
+        <option value="">Seleccione...</option>
+        <option value="Male">Masculino</option>
+        <option value="Female">Femenino</option>
+        <option value="Other">Otro</option>
+      </select>
+    </div>
+
+ 
+    <div>
+      <label class="block mb-1 font-semibold">Teléfono</label>
+      <input pInputText formControlName="phone" class="w-full" />
+    </div>
+
+  
+    <div>
+      <label class="block mb-1 font-semibold">Email</label>
+      <input pInputText type="email" formControlName="email" class="w-full" />
+    </div>
+  </div>
+
+  <div class="flex justify-center mt-6">
+    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-primary text-white px-3 py-1 text-sm"
+        label="Guardar"
+        icon="pi pi-save"
+      ></button>
+      <button
+        pButton
+        type="button"
+        class="p-button p-component p-button-secondary px-3 py-1 text-sm"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>
+
