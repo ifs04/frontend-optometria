@@ -1,0 +1,13 @@
+:host ::ng-deep .modern-dialog .p-dialog-header {
+  background: linear-gradient(to right, #2563eb, #3b82f6);
+  color: white;
+  font-weight: 600;
+}
+
+:host ::ng-deep .modern-dialog .p-dialog-content {
+  background-color: #f9fafb;
+}
+
+:host ::ng-deep .modern-dialog .p-dialog-footer {
+  display: none; /* usamos botones internos */
+}
