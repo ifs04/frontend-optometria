@@ -32,6 +32,11 @@ export class OrderService {
     return this.ordersService.value;
   }
 
+  getOrderById(id: number): OrderI | undefined {
+  return this.ordersService.value.find(order => order.id === id);
+}
+
+
   addOrder(order: OrderI) {
     const orders = this.ordersService.value;
     order.id = orders.length ? Math.max(...orders.map(serv => serv.id ?? 0)) + 1 : 1;

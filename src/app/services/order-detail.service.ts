@@ -22,7 +22,7 @@ private orderDetailService = new BehaviorSubject<OrderDetailI[]>([
     id: 2,
     orderId: 1,
     productType: 'FRAME',
-    productId: 5,
+    productId: 1,
     quantity: 1,
     unitPrice: 200000,
     subtotal: 250000
@@ -33,6 +33,15 @@ private orderDetailService = new BehaviorSubject<OrderDetailI[]>([
   getOrderDetails() {
     return this.orderDetailService.value;
   }
+
+  getDetailsByOrderId(orderId: number): OrderDetailI[] {
+    return this.orderDetailService.value.filter(detail => detail.orderId === orderId);
+  }
+
+  getDetailById(id: number): OrderDetailI | undefined {
+    return this.orderDetailService.value.find(detail => detail.id === id);
+  }
+
 
   addOrderDetail(orderDetail: OrderDetailI) {
     const orderDetails = this.orderDetailService.value;

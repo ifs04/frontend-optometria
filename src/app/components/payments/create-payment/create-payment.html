@@ -1,1 +1,80 @@
-<p>create-payment works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- Orden -->
+    <div>
+      <label class="block mb-2 text-lg font-semibold">Orden</label>
+      <select formControlName="orderId" class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300">
+        <option value="">Seleccione una orden</option>
+        <option *ngFor="let order of orders" [value]="order.id">
+          Orden #{{ order.id }} — {{ order.total | currency:'COP' }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Fecha -->
+    <div>
+      <label class="block mb-2 text-lg font-semibold">Fecha</label>
+      <input
+        type="date"
+        formControlName="date"
+        class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300"
+      />
+    </div>
+
+    <!-- Monto -->
+    <div>
+      <label class="block mb-2 text-lg font-semibold">Monto</label>
+      <input
+        type="number"
+        formControlName="amount"
+        class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300"
+        placeholder="Ej: 250000"
+      />
+    </div>
+
+    <!-- Método -->
+    <div>
+      <label class="block mb-2 text-lg font-semibold">Método de Pago</label>
+      <select formControlName="method" class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300">
+        <option value="CASH">Efectivo</option>
+        <option value="CARD">Tarjeta</option>
+        <option value="TRANSFER">Transferencia</option>
+      </select>
+    </div>
+
+    <!-- Estado -->
+    <div>
+      <label class="block mb-2 text-lg font-semibold">Estado</label>
+      <select formControlName="status" class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300">
+        <option value="PENDING">Pendiente</option>
+        <option value="COMPLETED">Completado</option>
+        <option value="FAILED">Fallido</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-center mt-8">
+    <div class="bg-gray-100 rounded-xl p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-green-600 hover:bg-green-700 text-white text-base px-5 py-2.5 rounded-lg"
+        label="Guardar"
+        icon="pi pi-save"
+        [disabled]="form.invalid"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        class="p-button p-component bg-gray-400 hover:bg-gray-500 text-black text-base px-5 py-2.5 rounded-lg"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>

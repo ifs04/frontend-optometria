@@ -15,9 +15,20 @@ private patientsService = new BehaviorSubject<PatientI[]>([
       age: 30,
       documentType: 'CC',
       documentNumber: '123456789',              
-      gender: 'Male',
+      gender: 'Female',
       phone: '3045987612',
       email: 'luisa@gmail.com',
+      status: "ACTIVE"
+    },
+    {
+      id: 2,
+      name: 'Maria Mengual',
+      age: 20,
+      documentType: 'TI',
+      documentNumber: '12789631',              
+      gender: 'Female',
+      phone: '3159856612',
+      email: 'Maria@gmail.com',
       status: "ACTIVE"
     },
    
