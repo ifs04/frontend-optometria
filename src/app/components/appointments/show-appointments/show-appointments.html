@@ -16,8 +16,8 @@
     <ng-template #header>
       <tr>
         <th>ID</th>
-        <th>Paciente ID</th>
-        <th>Optometra ID</th>
+        <th>Paciente</th>
+        <th>Optometra</th>
         <th>Fecha</th>
         <th>Motivo</th>
         <th>Estado</th>
@@ -27,8 +27,8 @@
     <ng-template #body let-appointment>
       <tr>
         <td>{{ appointment.id }}</td>
-        <td>{{ appointment.patientId }}</td>
-        <td>{{ appointment.optometristId }}</td>
+        <td>{{ getPatientName(appointment.patientId) }}</td>
+        <td>{{ getOptometristName(appointment.optometristId) }}</td>
         <td>{{ appointment.date | date:'dd/MM/yyyy' }}</td>
         <td>{{ appointment.reason }}</td>
         <td>{{ appointment.status }}</td>
