@@ -29,7 +29,7 @@
     <ng-template #body let-history>
       <tr>
         <td>{{ history.id }}</td>
-        <td>{{ history.patientId }}</td>
+        <td>{{ getPatientName(history.patientId) }}</td>
         <td>{{ history.observations }}</td>
         <td>{{ history.date | date:'dd/MM/yyyy' }}</td>
       </tr>
