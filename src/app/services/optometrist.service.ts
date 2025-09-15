@@ -23,7 +23,15 @@ export class OptometristService {
       phone: '3055678481',
       email: 'jane@gmail.com',
       status: 'INACTIVE'
-    }
+    },
+    {
+    id: 3,
+    name: 'Carlos Pérez',
+    specialty: 'PEDIATRICA',
+    phone: '3124567890',
+    email: 'carlos.perez@clinicamed.com',
+    status: 'ACTIVE'
+    },
   ]);
   optometrists$ = this.optometristsService.asObservable();
 

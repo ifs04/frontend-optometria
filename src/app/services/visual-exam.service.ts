@@ -43,6 +43,24 @@ export class VisualExamService {
         axis: 0,
         dp: 62
       }
+    },
+    {
+      id: 3,
+      appointmentId: 3,
+      date: '2025-10-10T15:30:00Z',
+      prescription: 'Miopía moderada con astigmatismo',
+      od: {
+        esf: -2.00,
+        cyl: -0.75,
+        axis: 80,
+        dp: 64
+      },
+      oi: {
+        esf: -1.75,
+        cyl: -0.50,
+        axis: 95,
+        dp: 64
+    }
     }
   ]);
   visualExams$ = this.visualExamsService.asObservable();

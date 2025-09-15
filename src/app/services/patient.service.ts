@@ -31,7 +31,17 @@ private patientsService = new BehaviorSubject<PatientI[]>([
       email: 'Maria@gmail.com',
       status: "ACTIVE"
     },
-   
+    {
+    id: 3,
+    name: 'Juan Pérez',
+    age: 45,
+    documentType: 'CC',
+    documentNumber: '1023456789',
+    gender: 'Male',
+    phone: '3123456789',
+    email: 'juan.perez@gmail.com',
+    status: "ACTIVE"
+  },
   ]);
   patients$ = this.patientsService.asObservable();
 

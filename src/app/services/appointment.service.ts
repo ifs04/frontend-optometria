@@ -23,7 +23,15 @@ export class AppointmentService {
       date: '2025-10-20',
       reason: 'Revisión de adaptación a lentes correctivos',
       status: 'ATTENDED'
-    }
+    },
+    {
+    id: 3,
+    patientId: 3,
+    optometristId: 3,
+    date: '2025-11-05',
+    reason: 'Control anual de visión',
+    status: 'CANCELLED'
+    },
   ]);
   appointments$ = this.appointmentsService.asObservable();
 
