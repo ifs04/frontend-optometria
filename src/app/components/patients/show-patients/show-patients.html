@@ -1,42 +1,55 @@
 <div class="card p-1">
-    <div class="flex flex-wrap gap-4 justify-end mb-4">
-        <p-button
-        type="button"
-        icon="pi pi-plus"
-        label="Nuevo paciente"
-        [routerLink]="['/patients/new']">
+  <div class="flex flex-wrap gap-4 justify-end mb-4">
+    <p-button
+      type="button"
+      icon="pi pi-plus"
+      label="Nuevo paciente"
+      [routerLink]="['/patients/new']"
+    >
     </p-button>
-    </div>
-    <p-table
-        [value]="patients"
-        showGridlines
-        [tableStyle]="{ 'min-width': '50rem' }">
-            <ng-template #header>
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Edad</th>
-                    <th>Tipo de documento</th>
-                    <th>Documento</th>
-                    <th>Género</th>
-                    <th>Telefono</th>
-                    <th>Correo</th>
-                    <th>Estado</th>
+  </div>
 
-                </tr>
-            </ng-template>
-            <ng-template #body let-patient>
-                <tr>
-                    <td>{{ patient.id}}</td>
-                    <td>{{ patient.name}}</td>
-                    <td>{{ patient.age}}</td>
-                    <td>{{ patient.documentType}}</td>
-                    <td>{{ patient.documentNumber}}</td>
-                    <td>{{ patient.gender}}</td>
-                    <td>{{ patient.phone}}</td>
-                    <td>{{ patient.email}}</td>
-                    <td>{{ patient.status}}</td>
-                </tr>
-            </ng-template>
-    </p-table>
+  <p-table
+    [value]="patients"
+    showGridlines
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Tipo de documento</th>
+        <th>Documento</th>
+        <th>Género</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Estado</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-patient>
+      <tr>
+        <td>{{ patient.id }}</td>
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.age }}</td>
+        <td>{{ patient.documentType }}</td>
+        <td>{{ patient.documentNumber }}</td>
+        <td>{{ patient.gender }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>{{ patient.email }}</td>
+        <td>
+          <span
+            class="px-2 py-1 rounded text-xs font-semibold"
+            [ngClass]="{
+              'bg-green-100 text-green-800': patient.status === 'ACTIVE',
+              'bg-red-100 text-red-800': patient.status === 'INACTIVE'
+            }"
+          >
+            {{ patient.status }}
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>

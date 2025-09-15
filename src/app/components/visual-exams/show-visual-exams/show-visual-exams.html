@@ -1,1 +1,63 @@
-<p>show-visual-exams works!</p>
+<div class="card p-8">
+  <!-- Botón crear nuevo examen -->
+  <div class="flex justify-end mb-4">
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      label="Nuevo Examen"
+      class="p-button-primary"
+      [routerLink]="['/visual-exams/new']"
+    ></button>
+  </div>
+
+  <!-- Tabla de exámenes visuales -->
+  <p-table
+    [value]="visualExams"
+    stripedRows="true"
+    responsiveLayout="scroll"
+    [tableStyle]="{ 'min-width': '70rem' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Cita</th>
+        <th>Fecha</th>
+        <th>OD (Esf / Cyl / Eje / DP)</th>
+        <th>OI (Esf / Cyl / Eje / DP)</th>
+        <th>Receta</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-exam>
+      <tr>
+        <td>{{ exam.id }}</td>
+        <td>{{ exam.appointmentId }}</td>
+        <td>{{ exam.date | date: 'short' }}</td>
+
+        <!-- Ojo Derecho -->
+        <td>
+          <div class="text-sm leading-5">
+            <div>Esf: <b>{{ exam.od.esf }}</b></div>
+            <div>Cyl: <b>{{ exam.od.cyl }}</b></div>
+            <div>Eje: <b>{{ exam.od.axis }}</b></div>
+            <div>DP: <b>{{ exam.od.dp }}</b></div>
+          </div>
+        </td>
+
+        <!-- Ojo Izquierdo -->
+        <td>
+          <div class="text-sm leading-5">
+            <div>Esf: <b>{{ exam.oi.esf }}</b></div>
+            <div>Cyl: <b>{{ exam.oi.cyl }}</b></div>
+            <div>Eje: <b>{{ exam.oi.axis }}</b></div>
+            <div>DP: <b>{{ exam.oi.dp }}</b></div>
+          </div>
+        </td>
+
+        <!-- Receta -->
+        <td>{{ exam.prescription }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

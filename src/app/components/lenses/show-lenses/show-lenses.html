@@ -1,1 +1,61 @@
-<p>show-lenses works!</p>
+<div class="card p-4">
+
+  <div class="flex justify-end mb-4">
+    <p-button
+      type="button"
+      icon="pi pi-plus"
+      label="Nuevo Lente"
+      [routerLink]="['/lenses/new']"
+    ></p-button>
+  </div>
+
+  <p-table [value]="lenses" [tableStyle]="{ 'min-width': '70rem' }" showGridlines>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Tipo</th>
+        <th>Material</th>
+        <th>Tratamiento</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Proveedor</th>
+        <th>Imagen</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-lens>
+      <tr>
+        <td>{{ lens.id }}</td>
+        <td>{{ lens.type }}</td>
+        <td>{{ lens.material }}</td>
+        <td>{{ lens.treatment || 'N/A' }}</td>
+        <td>{{ lens.price | number:'1.0-0' }}</td>
+        <td>
+          <p-tag
+            [value]="lens.stock + ' disponibles'"
+            severity="success"
+            class="text-xs"
+          ></p-tag>
+        </td>
+        <td>{{ lens.supplierId }}</td>
+        <td>
+          <p-image 
+            [src]="lens.image" 
+            alt="{{ lens.type }}" 
+            width="80"
+            height="50" 
+            [preview]="true">
+          </p-image>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <tr>
+        <td colspan="8" class="text-right font-medium">
+          En total hay {{ lenses.length }} lentes registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

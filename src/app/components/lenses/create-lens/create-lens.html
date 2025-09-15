@@ -1,1 +1,68 @@
-<p>create-lens works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Tipo -->
+    <div>
+      <label class="block mb-1 font-semibold">Tipo</label>
+      <input pInputText formControlName="type" class="w-full" placeholder="Ej: Monofocal, Bifocal..." />
+    </div>
+
+    <!-- Material -->
+    <div>
+      <label class="block mb-1 font-semibold">Material</label>
+      <input pInputText formControlName="material" class="w-full" placeholder="Ej: Policarbonato, Vidrio..." />
+    </div>
+
+    <!-- Tratamiento -->
+    <div>
+      <label class="block mb-1 font-semibold">Tratamiento</label>
+      <input pInputText formControlName="treatment" class="w-full" placeholder="Ej: Antirreflejo, Fotocromático..." />
+    </div>
+
+    <!-- Precio -->
+    <div>
+      <label class="block mb-1 font-semibold">Precio</label>
+      <input type="number" pInputText formControlName="price" class="w-full" placeholder="Ej: 150000" />
+    </div>
+
+    <!-- Stock -->
+    <div>
+      <label class="block mb-1 font-semibold">Stock</label>
+      <input type="number" pInputText formControlName="stock" class="w-full" placeholder="Ej: 10" />
+    </div>
+
+    <!-- Proveedor -->
+    <div>
+      <label class="block mb-1 font-semibold">Proveedor (ID)</label>
+      <input type="number" pInputText formControlName="supplierId" class="w-full" placeholder="Ej: 1" />
+    </div>
+
+    <!-- Imagen -->
+    <div class="md:col-span-2">
+      <label class="block mb-1 font-semibold">URL Imagen</label>
+      <input pInputText formControlName="image" class="w-full" placeholder="https://..." />
+    </div>
+
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-center mt-6">
+    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-primary text-white"
+        label="Guardar"
+        icon="pi pi-save"
+      ></button>
+      <button
+        pButton
+        type="button"
+        class="p-button p-component p-button-secondary"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>

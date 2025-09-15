@@ -30,7 +30,7 @@ private patientsService = new BehaviorSubject<PatientI[]>([
 
   addPatient(patient: PatientI) {
     const patients = this.patientsService.value;
-    patient.id = patients.length ? Math.max(...patients.map(c => c.id ?? 0)) + 1 : 1;
+    patient.id = patients.length ? Math.max(...patients.map(p => p.id ?? 0)) + 1 : 1;
     this.patientsService.next([...patients, patient]);
   }
 }

@@ -1,1 +1,61 @@
-<p>create-optometrist works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Registrar Optometrista</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Nombre -->
+    <div>
+      <label class="block mb-1 font-semibold">Nombre</label>
+      <input pInputText formControlName="name" class="w-full" />
+    </div>
+
+    <!-- Especialidad -->
+    <div>
+      <label class="block mb-1 font-semibold">Especialidad</label>
+      <select formControlName="specialty" class="w-full p-inputtext rounded border border-gray-300">
+        <option value="">Seleccione...</option>
+        <option value="GENERAL">Optometría General</option>
+        <option value="CONTACTOLOGIA">Contactología</option>
+        <option value="PEDIATRICA">Optometría Pediátrica</option>
+        <option value="GERIATRICA">Optometría Geriátrica</option>
+        <option value="BAJA_VISION">Baja Visión</option>
+        <option value="REHABILITACION">Rehabilitación Visual</option>
+        <option value="VISION_DEPORTIVA">Visión Deportiva</option>
+        <option value="VISION_BINOCULAR">Visión Binocular y Terapia Visual</option>
+        <option value="OCUPACIONAL">Optometría Ocupacional</option>
+      </select>
+    </div>
+
+    <!-- Teléfono -->
+    <div>
+      <label class="block mb-1 font-semibold">Teléfono</label>
+      <input pInputText formControlName="phone" class="w-full" />
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label class="block mb-1 font-semibold">Email</label>
+      <input pInputText type="email" formControlName="email" class="w-full" />
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-center mt-6">
+    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-primary text-white px-3 py-1 text-sm"
+        label="Guardar"
+        icon="pi pi-save"
+      ></button>
+      <button
+        pButton
+        type="button"
+        class="p-button p-component p-button-secondary px-3 py-1 text-sm"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>
