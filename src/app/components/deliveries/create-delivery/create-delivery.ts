@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { OrderI } from '../../../models/order';
 import { DeliveryService } from '../../../services/delivery.service';
 import { OrderService } from '../../../services/order.service';
+import { DeliveryI } from '../../../models/delivery';
 
 
 
@@ -27,7 +28,7 @@ export class CreateDelivery {
     private orderService: OrderService
   ) {
     this.form = this.fb.group({
-      orderId: [null, Validators.required],
+      order_id: [null, Validators.required],
       date: [new Date().toISOString().substring(0, 10), Validators.required],
       status: ['PENDING', Validators.required],
       observations: ['']
@@ -40,10 +41,10 @@ export class CreateDelivery {
     if (this.form.valid) {
       const raw = this.form.value;
 
-      const delivery = {
-        orderId: Number(raw.orderId),
+      const delivery: DeliveryI = {
+        order_id: Number(raw.order_id),
         date: raw.date ?? new Date().toISOString().substring(0, 10),
-        status: raw.status as 'PENDING' | 'READY' | 'DELIVERED',
+        status: raw.status as 'ACTIVE' | 'INACTIVE',
         observations: raw.observations?.trim() || ''
       };
 

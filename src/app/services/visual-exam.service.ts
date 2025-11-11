@@ -10,7 +10,7 @@ export class VisualExamService {
   private visualExamsService = new BehaviorSubject<VisualExamI[]>([
     {
       id: 1,
-      appointmentId: 1,
+      appointment_id: 1,
       date: '2025-09-12T10:00:00Z',
       prescription: 'Paciente con miopía leve',
       od: {
@@ -24,11 +24,12 @@ export class VisualExamService {
         cyl: -0.25,
         axis: 95,
         dp: 63
-      }
+      },
+      status: "ACTIVE"  
     },
     {
       id: 2,
-      appointmentId: 2,
+      appointment_id: 2,
       date: '2025-09-12T11:00:00Z',
       prescription: 'Hipermetropía leve, sin astigmatismo',
       od: {
@@ -42,26 +43,10 @@ export class VisualExamService {
         cyl: 0,
         axis: 0,
         dp: 62
-      }
-    },
-    {
-      id: 3,
-      appointmentId: 3,
-      date: '2025-10-10T15:30:00Z',
-      prescription: 'Miopía moderada con astigmatismo',
-      od: {
-        esf: -2.00,
-        cyl: -0.75,
-        axis: 80,
-        dp: 64
       },
-      oi: {
-        esf: -1.75,
-        cyl: -0.50,
-        axis: 95,
-        dp: 64
-    }
-    }
+      status: "ACTIVE"
+    },
+   
   ]);
   visualExams$ = this.visualExamsService.asObservable();
 

@@ -15,8 +15,9 @@ export class FrameService {
       color: 'Negro',
       price: 150000,
       stock: 10,
-      supplierId: 1,
-      image: 'https://images2.ray-ban.com//cdn-record-files-pi/46a585d2-0b37-410d-b309-ae90017fd47b/e1fca6ed-1224-4dcb-a5ad-ae90017fda37/0RB3016__1367B1__P21__shad__qt.png?impolicy=RB_Product_clone&width=700&bgc=%23f2f2f2'
+      supplier_id: 1,
+      image: 'https://images2.ray-ban.com//cdn-record-files-pi/46a585d2-0b37-410d-b309-ae90017fd47b/e1fca6ed-1224-4dcb-a5ad-ae90017fda37/0RB3016__1367B1__P21__shad__qt.png?impolicy=RB_Product_clone&width=700&bgc=%23f2f2f2',
+      status: 'ACTIVE'
     },
     {
       id: 2,
@@ -26,8 +27,9 @@ export class FrameService {
       color: 'Plateado',
       price: 200000,
       stock: 5,
-      supplierId: 2,
-      image: 'https://tiendasoa.com/cdn/shop/files/142.png?v=1725654075&width=1946'
+      supplier_id: 2,
+      image: 'https://tiendasoa.com/cdn/shop/files/142.png?v=1725654075&width=1946',
+      status: 'INACTIVE'
 
     }
   ]);

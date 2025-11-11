@@ -1,8 +1,8 @@
 export interface AppointmentI {
   id?: number;
-  patientId: number;
-  optometristId: number;
+  patient_id: number;
+  optometrist_id: number;
   date: string;
   reason: string;
-  status: 'PENDING' | 'ATTENDED' | 'CANCELLED';
+  status: "ACTIVE" | "INACTIVE";
 }

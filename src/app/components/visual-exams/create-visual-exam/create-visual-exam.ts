@@ -22,7 +22,7 @@ export class CreateVisualExam {
     private visualExamService: VisualExamService
   ) {
     this.form = this.fb.group({
-      appointmentId: ['', Validators.required],
+      appointment_id: ['', Validators.required],
       date: ['', Validators.required],
       prescription: [''],
       odEsf: ['', Validators.required],
@@ -32,7 +32,8 @@ export class CreateVisualExam {
       oiEsf: ['', Validators.required],
       oiCyl: ['', Validators.required],
       oiAxis: ['', Validators.required],
-      oiDp: ['', Validators.required]
+      oiDp: ['', Validators.required],
+      status: ['ACTIVE', Validators.required]
     });
   }
 
@@ -41,7 +42,7 @@ export class CreateVisualExam {
       const value = this.form.value;
 
       this.visualExamService.addVisualExam({
-        appointmentId: Number(value.appointmentId),
+        appointment_id: Number(value.appointment_id),
         date: value.date ?? '',
         prescription: value.prescription ?? '',
         od: {
@@ -55,7 +56,8 @@ export class CreateVisualExam {
           cyl: Number(value.oiCyl),
           axis: Number(value.oiAxis),
           dp: Number(value.oiDp)
-        }
+        },
+        status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE',
       });
 
       this.router.navigate(['/visual-exams']);

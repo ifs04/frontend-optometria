@@ -2,8 +2,8 @@ export interface PatientI {
   id?: number;
   name: string;
   age: number;
-  documentType: string;      
-  documentNumber: string;               
+  document_type: string;      
+  document_number: string;               
   gender: 'Male' | 'Female' | 'Other';
   phone: string;
   email: string;

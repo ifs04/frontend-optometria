@@ -10,22 +10,24 @@ export class OrderDetailService {
 private orderDetailService = new BehaviorSubject<OrderDetailI[]>([
     {
     id: 1,
-    orderId: 1,
-    productType: 'LENS',
-    productId: 1,
+    order_id: 1,
+    product_type: 'LENS',
+    product_id: 1,
     quantity: 2,
-    unitPrice: 150000,
+    unit_price: 150000,
     graduation: '2.00',
-    subtotal: 300000
+    subtotal: 300000,
+    status: 'ACTIVE'
   },
   {
     id: 2,
-    orderId: 1,
-    productType: 'FRAME',
-    productId: 1,
+    order_id: 1,
+    product_type: 'FRAME',
+    product_id: 1,
     quantity: 1,
-    unitPrice: 200000,
-    subtotal: 250000
+    unit_price: 200000,
+    subtotal: 250000,
+    status: 'ACTIVE'
   }
   ]);
   orderDetails$ = this.orderDetailService.asObservable();
@@ -34,8 +36,8 @@ private orderDetailService = new BehaviorSubject<OrderDetailI[]>([
     return this.orderDetailService.value;
   }
 
-  getDetailsByOrderId(orderId: number): OrderDetailI[] {
-    return this.orderDetailService.value.filter(detail => detail.orderId === orderId);
+  getDetailsByOrderId(order_id: number): OrderDetailI[] {
+    return this.orderDetailService.value.filter(detail => detail.order_id === order_id);
   }
 
   getDetailById(id: number): OrderDetailI | undefined {

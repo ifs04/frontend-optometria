@@ -10,27 +10,11 @@ export class AppointmentService {
   private appointmentsService = new BehaviorSubject<AppointmentI[]>([
     {
       id: 1,
-      patientId: 1, 
-      optometristId: 1, 
+      patient_id: 1, 
+      optometrist_id: 1, 
       date: '2025-10-05',
       reason: 'Control por miopía y astigmatismo',
-      status: 'PENDING'
-    },
-    {
-      id: 2,
-      patientId: 2, 
-      optometristId: 2,
-      date: '2025-10-20',
-      reason: 'Revisión de adaptación a lentes correctivos',
-      status: 'ATTENDED'
-    },
-    {
-    id: 3,
-    patientId: 3,
-    optometristId: 3,
-    date: '2025-11-05',
-    reason: 'Control anual de visión',
-    status: 'CANCELLED'
+      status: 'ACTIVE'
     },
   ]);
   appointments$ = this.appointmentsService.asObservable();

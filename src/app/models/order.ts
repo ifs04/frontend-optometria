@@ -1,8 +1,8 @@
 export interface OrderI {
   id?: number;
-  patientId: number;     
-  optometristId: number; 
+  patient_id: number;     
+  optometrist_id: number; 
   date: string;
   total: number;
-  status: "PENDING" | "IN_PROCESS" | "DELIVERED" | "CANCELLED"; 
+  status: "ACTIVE" | "INACTIVE"; 
 }

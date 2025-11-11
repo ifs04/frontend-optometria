@@ -27,11 +27,11 @@ export class CreatePayment {
     private orderService: OrderService
   ) {
     this.form = this.fb.group({
-      orderId: [null, Validators.required],
+      order_id: [null, Validators.required],
       date: [new Date().toISOString().substring(0, 10), Validators.required],
       amount: [0, [Validators.required, Validators.min(1)]],
       method: ['CASH', Validators.required],
-      status: ['PENDING', Validators.required]
+      status: ['ACTIVE', Validators.required]
     });
 
     this.orders = this.orderService.getOrders();
@@ -42,11 +42,11 @@ export class CreatePayment {
       const raw = this.form.value;
 
       const payment: PaymentI = {
-        orderId: Number(raw.orderId),
+        order_id: Number(raw.order_id),
         date: raw.date,
         amount: Number(raw.amount),
         method: raw.method as 'CASH' | 'CARD' | 'TRANSFER',
-        status: raw.status as 'PENDING' | 'COMPLETED' | 'FAILED'
+        status: raw.status as 'ACTIVE' | 'INACTIVE', 
       };
 
       this.paymentService.addPayment(payment);

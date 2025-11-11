@@ -6,5 +6,6 @@ export interface LensI {
   treatment?: string;
   price: number;
   stock: number;
-  supplierId: number; 
+  supplier_id: number;
+  status: "ACTIVE" | "INACTIVE";
 }

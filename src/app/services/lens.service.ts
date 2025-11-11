@@ -15,7 +15,8 @@ export class LensService {
       treatment: 'Antirreflejo',
       price: 100000,
       stock: 20,
-      supplierId: 1
+      supplier_id: 1,
+      status: "ACTIVE"
     },
     {
       id: 2,
@@ -25,7 +26,8 @@ export class LensService {
       treatment: 'Fotocromático',
       price: 180000,
       stock: 15,
-      supplierId: 2
+      supplier_id: 2,
+      status: "ACTIVE"
     }
   ]);
   lenses$ = this.lensService.asObservable();

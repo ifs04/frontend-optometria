@@ -22,9 +22,10 @@ export class CreateVisualHistory {
     private visualhistoryService: VisualHistoryService
   ) {
     this.form = this.fb.group({
-    patientId: ['', Validators.required],
+    patient_id: ['', Validators.required],
     observations: ['', Validators.required],
     date: [new Date(), Validators.required], 
+    status: ['ACTIVE', Validators.required]
   });
   }
 
@@ -32,9 +33,10 @@ export class CreateVisualHistory {
    if (this.form.valid) {
     const value = this.form.value;
     this.visualhistoryService.addHistories({
-      patientId: Number(value.patientId), 
+      patient_id: Number(value.patient_id), 
       observations: value.observations ?? '',
       date: value.date ?? new Date(), 
+      status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE',
     });
     this.router.navigate(['/visual-histories']); 
   }

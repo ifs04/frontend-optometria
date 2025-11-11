@@ -1,7 +1,7 @@
 export interface DeliveryI {
   id?: number;
-  orderId: number;        
+  order_id: number;
   date: string;
-  status: "PENDING" | "READY" | "DELIVERED"; 
+  status: "ACTIVE" | "INACTIVE";
   observations?: string;
 }

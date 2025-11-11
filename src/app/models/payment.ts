@@ -1,8 +1,8 @@
 export interface PaymentI {
   id?: number;
-  orderId: number;        
+  order_id: number;        
   date: string;           
   amount: number;      
   method: "CASH" | "CARD" | "TRANSFER";
-  status: "PENDING" | "COMPLETED" | "FAILED"; 
+  status: "ACTIVE" | "INACTIVE"; 
 }

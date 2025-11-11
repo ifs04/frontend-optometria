@@ -34,12 +34,13 @@ export class CreateOrderDetail {
     private frameService: FrameService
   ) {
     this.form = this.fb.group({
-      orderId: [null, Validators.required],
-      productType: ['LENS', Validators.required],
-      productId: [null, Validators.required],
+      order_id: [null, Validators.required],
+      product_type: ['LENS', Validators.required],
+      product_id: [null, Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
-      unitPrice: [0, [Validators.required, Validators.min(1)]],
-      graduation: ['']
+      unit_price: [0, [Validators.required, Validators.min(1)]],
+      graduation: [''],
+      status: ['ACTIVE', Validators.required]
     });
 
     this.lenses = this.lensService.getLenses();
@@ -48,12 +49,12 @@ export class CreateOrderDetail {
 
   get subtotal(): number {
     const qty = Number(this.form.get('quantity')?.value ?? 0);
-    const price = Number(this.form.get('unitPrice')?.value ?? 0);
+    const price = Number(this.form.get('unit_price')?.value ?? 0);
     return qty * price;
   }
 
 get availableProducts(): (LensI | FrameI)[] {
-    const type = this.form.get('productType')?.value;
+    const type = this.form.get('product_type')?.value;
     return type === 'LENS' ? this.lenses : this.frames;
   }
 
@@ -71,13 +72,14 @@ getProductLabel(product: LensI | FrameI): string {
     if (this.form.valid) {
       const value = this.form.value;
       this.orderDetailService.addOrderDetail({
-        orderId: Number(value.orderId),
-        productType: value.productType as 'LENS' | 'FRAME',
-        productId: Number(value.productId),
+        order_id: Number(value.order_id),
+        product_type: value.product_type as 'LENS' | 'FRAME',
+        product_id: Number(value.product_id),
         quantity: Number(value.quantity),
-        unitPrice: Number(value.unitPrice),
-        graduation: value.productType === 'LENS' ? value.graduation ?? '' : '',
-        subtotal: this.subtotal
+        unit_price: Number(value.unit_price),
+        graduation: value.product_type === 'LENS' ? value.graduation ?? '' : '',
+        subtotal: this.subtotal,
+        status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE', 
       });
       this.router.navigate(['/order-details']);
     }

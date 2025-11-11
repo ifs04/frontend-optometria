@@ -11,16 +11,16 @@ export class DeliveryService {
 private deliveriesService = new BehaviorSubject<DeliveryI[]>([
     {
       id: 1,
-      orderId: 1,
+      order_id: 1,
       date: '2025-09-10',
-      status: 'PENDING',
+      status: 'ACTIVE',
       observations: 'Esperando confirmación del cliente'
     },
     {
       id: 2,
-      orderId: 2,
+      order_id:2,
       date: '2025-09-11',
-      status: 'DELIVERED',
+      status: 'INACTIVE',
       observations: 'Entregado en la óptica central'
     }
   ]);

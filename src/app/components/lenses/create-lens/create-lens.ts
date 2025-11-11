@@ -28,7 +28,8 @@ export class CreateLens {
       price: [0, [Validators.required, Validators.min(1)]],
       stock: [0, [Validators.required, Validators.min(0)]],
       supplierId: [0, [Validators.required, Validators.min(1)]],
-      image: ['', Validators.required]
+      image: ['', Validators.required],
+      status: ['ACTIVE', Validators.required]
     });
   }
 
@@ -41,8 +42,9 @@ export class CreateLens {
         treatment: value.treatment ?? '',
         price: value.price ?? 0,
         stock: value.stock ?? 0,
-        supplierId: value.supplierId ?? 0,
-        image: value.image ?? ''
+        supplier_id: value.supplierId ?? 0,
+        image: value.image ?? '',
+        status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE'
       });
       this.router.navigate(['/lenses']);
     }

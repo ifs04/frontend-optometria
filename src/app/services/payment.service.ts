@@ -10,19 +10,19 @@ export class PaymentService {
 private paymentsService = new BehaviorSubject<PaymentI[]>([
      {
       id: 1,
-      orderId: 1,
+      order_id: 1,
       date: '2025-09-12',
       amount: 250000,
       method: 'CASH',
-      status: 'COMPLETED'
+      status: 'ACTIVE'
     },
     {
       id: 2,
-      orderId: 2,
+      order_id: 2,
       date: '2025-09-11',
       amount: 480000,
       method: 'CARD',
-      status: 'PENDING'
+      status: 'INACTIVE'
     }
   ]);
   payments$ = this.paymentsService.asObservable();

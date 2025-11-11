@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-
 import { InputTextModule } from 'primeng/inputtext';
 import { AppointmentService } from '../../../services/appointment.service';
 
@@ -24,11 +23,11 @@ export class CreateAppointment {
     private appointmentService: AppointmentService
   ) {
     this.form = this.fb.group({
-      patientId: ['', Validators.required],
-      optometristId: ['', Validators.required],
+      patient_id: ['', Validators.required],
+      optometrist_id: ['', Validators.required],
       date: ['', Validators.required],
       reason: ['', Validators.required],
-      status: ['PENDING', Validators.required] 
+      status: ['ACTIVE', Validators.required] 
     });
   }
 
@@ -36,11 +35,11 @@ export class CreateAppointment {
     if (this.form.valid) {
       const value = this.form.value;
       this.appointmentService.addAppointment({
-        patientId: Number(value.patientId),
-        optometristId: Number(value.optometristId),
+        patient_id: Number(value.patient_id),
+        optometrist_id: Number(value.optometrist_id),
         date: value.date ? new Date(value.date).toISOString().substring(0,16) : new Date().toISOString().substring(0,16),
         reason: value.reason ?? '',
-        status: (value.status ?? 'PENDING') as "PENDING" | "ATTENDED" | "CANCELLED"
+        status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE',
       });
       this.router.navigate(['/appointments']);
     }

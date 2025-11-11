@@ -27,8 +27,10 @@ export class CreateFrame {
       color: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(1)]],
       stock: [0, [Validators.required, Validators.min(0)]],
-      supplierId: [0, [Validators.required, Validators.min(1)]],
-      image: ['', Validators.required]
+      supplier_id: [0, [Validators.required, Validators.min(1)]],
+      image: ['', Validators.required],
+      status: ['ACTIVE', Validators.required]
+
     });
   }
 
@@ -42,8 +44,9 @@ export class CreateFrame {
       color: value.color ?? '',
       price: value.price ?? 0,
       stock: value.stock ?? 0,
-      supplierId: value.supplierId ?? 0,
-      image: value.image ?? ''
+      supplier_id: value.supplier_id ?? 0,
+      image: value.image ?? '',
+      status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE',
     });
     this.router.navigate(['/frames']);
     }

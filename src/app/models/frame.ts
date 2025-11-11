@@ -6,6 +6,7 @@ export interface FrameI {
   color: string;
   price: number;
   stock: number;
-  supplierId: number; 
+  supplier_id: number; 
   image: string;
+  status: "ACTIVE" | "INACTIVE";
 }

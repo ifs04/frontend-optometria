@@ -24,8 +24,8 @@ export class CreatePatient {
     this.form = this.fb.group({
       name: ['', Validators.required],
       age: ['', Validators.required],
-      documentType: ['', Validators.required],
-      documentNumber: ['', Validators.required],
+      document_type: ['', Validators.required],
+      document_number: ['', Validators.required],
       gender: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -40,8 +40,8 @@ export class CreatePatient {
         
         name: value.name ?? '',
         age: value.age ? Number(value.age) : 0,
-        documentType: value.documentType ?? '',
-        documentNumber: value.documentNumber ?? '',
+        document_type: value.document_type ?? '',
+        document_number: value.document_number ?? '',
         gender: value.gender === 'Male' || value.gender === 'Female' ? value.gender: 'Male',
         phone: value.phone ?? '',
         email: value.email ?? '',

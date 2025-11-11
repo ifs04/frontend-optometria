@@ -1,7 +1,8 @@
 
 export interface VisualHistoryI {
   id?: number;
-  patientId: number; 
+  patient_id: number; 
   observations: string;
   date: Date;
+  status: "ACTIVE" | "INACTIVE";
 }

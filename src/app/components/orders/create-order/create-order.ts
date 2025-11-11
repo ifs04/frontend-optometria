@@ -35,11 +35,11 @@ export class CreateOrder {
 
   ) {
     this.form = this.fb.group({
-      patientId: [null, Validators.required],
-      optometristId: [null, Validators.required],
+      patient_id: [null, Validators.required],
+      optometrist_id: [null, Validators.required],
       date: [new Date().toISOString().substring(0, 10), Validators.required],
       total: [0, [Validators.required, Validators.min(1)]],
-      status: ['PENDING', Validators.required]
+      status: ['ACTIVE', Validators.required]
     });
 
     this.patientService.patients$.subscribe(data => {
@@ -55,15 +55,15 @@ export class CreateOrder {
     if (this.form.valid) {
     const raw = this.form.value;
 
-    const patientId = Number(raw.patientId ?? 0);
-    const optometristId = Number(raw.optometristId ?? 0);
+    const patient_id = Number(raw.patient_id ?? 0);
+    const optometrist_id = Number(raw.optometrist_id ?? 0);
 
     const order: OrderI = {
-      patientId,
-      optometristId,
+      patient_id,
+      optometrist_id,
       date: raw.date ?? new Date().toISOString().substring(0, 10),
       total: Number(raw.total ?? 0),
-      status: raw.status as 'PENDING' | 'IN_PROCESS' | 'DELIVERED' | 'CANCELLED'
+      status: raw.status as 'ACTIVE' | 'INACTIVE' 
     };
 
     this.orderService.addOrder(order);

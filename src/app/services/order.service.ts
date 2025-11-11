@@ -11,19 +11,19 @@ export class OrderService {
   private ordersService = new BehaviorSubject<OrderI[]>([
      {
       id: 1,
-      patientId: 1,
-      optometristId: 1,
+      patient_id: 1,
+      optometrist_id: 1,
       date: '2025-09-12',
       total: 250000,
-      status: 'PENDING'
+      status: 'ACTIVE'
     },
     {
       id: 2,
-      patientId: 2,
-      optometristId: 1,
+      patient_id: 2,
+      optometrist_id: 1,
       date: '2025-09-12',
       total: 400000,
-      status: 'IN_PROCESS'
+      status: 'INACTIVE'
     }
   ]);
   orders$ = this.ordersService.asObservable();
