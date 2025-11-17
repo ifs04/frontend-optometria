@@ -1,69 +1,79 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { AppointmentService } from '../../../services/appointment.service';
-
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { AppointmentI } from '../../../models/appointment';
-
+import { AuthService } from '../../../services/auth.service';
+import { CardModule } from 'primeng/card';
 
 @Component({
-  selector: 'app-create-appointment',
+  selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule],
-  templateUrl: './create-appointment.html',
-  styleUrl: './create-appointment.css',
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule, CardModule],
+  templateUrl: './register.html',
+  styleUrl: './register.css',
   providers: [MessageService]
 })
-export class CreateAppointment {
-  form;
+export class Register {
+  form: FormGroup;
   loading: boolean = false;
-  statusOptions = [
-    { label: 'Activo', value: 'ACTIVE' },
-    { label: 'Inactivo', value: 'INACTIVE' }
-  ];
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private appointmentService: AppointmentService,
+    private authService: AuthService,
     private messageService: MessageService
   ) {
     this.form = this.fb.group({
-      patient_id: [0,Validators.required],
-      optometrist_id: [ 0,Validators.required],
-      date: ['', Validators.required],
-      reason: ['', Validators.required],
-      status: ['ACTIVE', Validators.required] 
-    });
+      username: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  // Validador personalizado para confirmar contraseñas
+  passwordMatchValidator(control: AbstractControl) {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+
+    if (confirmPassword?.hasError('passwordMismatch')) {
+      confirmPassword.setErrors(null);
+    }
+
+    return null;
   }
 
   submit(): void {
     if (this.form.valid) {
       this.loading = true;
-      const appointmentData = this.form.value as AppointmentI;
+      const { confirmPassword, ...registerData } = this.form.value;
 
-      this.appointmentService.createAppointment(appointmentData).subscribe({
+      this.authService.register(registerData).subscribe({
         next: (response) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Éxito',
-            detail: 'Cliente creado correctamente'
+            detail: 'Usuario registrado correctamente'
           });
           setTimeout(() => {
             this.router.navigate(['/appointments']);
           }, 1000);
         },
         error: (error) => {
-          console.error('Error creating client:', error);
+          console.error('Error registering user:', error);
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Error al crear el cliente'
+            detail: error.error?.message || 'Error al registrar usuario'
           });
           this.loading = false;
         }
@@ -78,8 +88,8 @@ export class CreateAppointment {
     }
   }
 
-  cancelar(): void {
-    this.router.navigate(['/appointments']);
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 
   private markFormGroupTouched(): void {
@@ -94,10 +104,8 @@ export class CreateAppointment {
       if (field.errors['required']) return `${fieldName} es requerido`;
       if (field.errors['email']) return 'Email no válido';
       if (field.errors['minlength']) return `${fieldName} debe tener al menos ${field.errors['minlength'].requiredLength} caracteres`;
-      if (field.errors['pattern']) return 'Formato no válido';
+      if (field.errors['passwordMismatch']) return 'Las contraseñas no coinciden';
     }
     return '';
   }
 }
-
- 

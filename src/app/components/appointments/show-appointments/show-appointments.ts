@@ -9,41 +9,85 @@ import { OptometristI } from '../../../models/ optometrist';
 import { AppointmentService } from '../../../services/appointment.service';
 import { OptometristService } from '../../../services/optometrist.service';
 import { PatientService } from '../../../services/patient.service';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 
 @Component({
   selector: 'app-show-appointments',
-  imports: [TableModule,CommonModule,ButtonModule,RouterModule],
+  imports: [TableModule,CommonModule,ButtonModule,RouterModule,ConfirmDialogModule, ToastModule],
   templateUrl: './show-appointments.html',
   styleUrl: './show-appointments.css',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [ConfirmationService, MessageService]
 })
 export class ShowAppointments {
   appointments: AppointmentI[] = [];
   patients: PatientI[] = [];
   optometrists: OptometristI[] = [];
+  loading: boolean = false;
 
   constructor(private appointmentService: AppointmentService,
     private patientService: PatientService,
-    private optometristService: OptometristService
+    private optometristService: OptometristService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {
-    this.appointmentService.appointments$.subscribe(appointments => {
-      this.appointments = appointments;
-    });
-    this.patientService.patients$.subscribe(data => {
-      this.patients = data;
-    });
-    this.optometristService.optometrists$.subscribe(data => {
-      this.optometrists = data;
-    });
   }
-  getPatientName(id: number): string {
-    const patient = this.patients.find(p => p.id === id);
-    return patient ? patient.name : 'Paciente no encontrado';
+ngOnInit(): void {
+    this.loadAppointments();
   }
 
-  getOptometristName(id: number): string {
-    const opto = this.optometrists.find(o => o.id === id);
-    return opto ? opto.name : 'Optometrista no encontrado';
+  loadAppointments(): void {
+    this.loading = true;
+    this.appointmentService.getAllAppointments().subscribe({
+      next: (appointments) => {
+        console.log('Loaded appointments:', appointments);
+        this.appointments = appointments;
+        this.appointmentService.updateLocalAppointments(appointments);
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading appointments:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al cargar los appointmente'
+        });
+        this.loading = false;
+      }
+    });
+  }
+
+  deleteAppointment(appointment: AppointmentI): void {
+    this.confirmationService.confirm({
+      message: `¿Está seguro de eliminar esta cita ${appointment.id}?`,
+      header: 'Confirmar eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (appointment.id) {
+          this.appointmentService.deleteAppointment(appointment.id).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Cita eliminado correctamente'
+              });
+              this.loadAppointments();
+            },
+            error: (error) => {
+              console.error('Error deleting appointment:', error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error al eliminar la cita'
+              });
+            }
+          });
+        }
+      }
+    });
   }
 }
+

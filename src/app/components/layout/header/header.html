@@ -34,23 +34,16 @@
       <p-button 
         icon="pi pi-sign-in" 
         label="Iniciar Sesión" 
-        (click)="showLoginDialog()"
+        (click)="goToLogin()"
         severity="secondary"
         styleClass="w-full flex justify-center items-center text-center !px-0"
       ></p-button>
 
-      <p-button 
-        icon="pi pi-user-plus" 
-        label="Registrarse" 
-        (click)="showRegisterDialog()"
-        severity="secondary"
-        styleClass="w-full flex justify-center items-center text-center !px-0"
-      ></p-button>
-
+      
       <p-button 
         icon="pi pi-sign-out" 
         label="Cerrar Sesión" 
-        (click)="confirmLogout($event)"
+        (click)="logout()"
         severity="danger"
         styleClass="w-full flex justify-center items-center text-center !px-0"
       ></p-button>
@@ -59,144 +52,3 @@
 
 </div>
 
-<!-- Dialog Login -->
-<p-dialog 
-  [(visible)]="loginDialogVisible" 
-  [modal]="true"
-  [dismissableMask]="true"
-  maskStyleClass="backdrop-blur-sm"
-  styleClass="!border-0 !bg-transparent"
->
-  <ng-template #headless>
-    <div
-      class="flex flex-col px-8 py-10 gap-6 rounded-2xl w-[26rem] mx-auto"
-      style="border-radius: 12px; background-image: radial-gradient(circle at left top, #bedbff, #3b82f6)"
-    >
-      <!-- Logo centrado -->
-      <img 
-        src="assets/logo.png" 
-        alt="Logo" 
-        class="w-16 h-16 mx-auto object-contain"
-      />
-
-      <!-- Usuario -->
-      <div class="inline-flex flex-col gap-2">
-        <label for="login-username" class="text-[#f9fafb] font-semibold">Usuario</label>
-        <input 
-          id="login-username" 
-          pInputText 
-          [(ngModel)]="loginData.username"
-          autocomplete="off"
-          class="!bg-white/20 !border-0 !p-4 !text-[#f9fafb] w-full rounded-md placeholder:text-[#f9fafb]/70"
-        />
-      </div>
-
-      <!-- Contraseña -->
-      <div class="inline-flex flex-col gap-2">
-        <label for="login-password" class="text-[#f9fafb] font-semibold">Contraseña</label>
-        <input 
-          id="login-password" 
-          type="password" 
-          pInputText 
-          [(ngModel)]="loginData.password"
-          class="!bg-white/20 !border-0 !p-4 !text-[#f9fafb] w-full rounded-md placeholder:text-[#f9fafb]/70"
-        />
-      </div>
-
-      <!-- Botones -->
-      <div class="flex items-center gap-4 mt-2">
-        <p-button
-          label="Cancelar"
-          (click)="loginDialogVisible = false"
-          [text]="true"
-          styleClass="!p-4 w-full !text-[#f9fafb] !border !border-white/30 hover:!bg-white/10 rounded-md"
-        />
-        <p-button
-          label="Entrar"
-          (click)="onLoginSubmit()"
-          [text]="true"
-          styleClass="!p-4 w-full !text-[#f9fafb] !border !border-white/30 hover:!bg-white/10 rounded-md"
-        />
-      </div>
-    </div>
-  </ng-template>
-</p-dialog>
-
-
-<!-- Dialog Registro -->
-<p-dialog 
-  [(visible)]="registerDialogVisible" 
-  [modal]="true"
-  [dismissableMask]="true"
-  maskStyleClass="backdrop-blur-sm"
-  styleClass="!border-0 !bg-transparent"
->
-  <ng-template #headless>
-    <div
-      class="flex flex-col px-8 py-10 gap-6 rounded-2xl w-[26rem] mx-auto"
-      style="border-radius: 12px; background-image: radial-gradient(circle at left top, #bedbff, #3b82f6)"
-    >
-      <!-- Logo -->
-      <img 
-        src="assets/logo.png" 
-        alt="Logo" 
-        class="w-16 h-16 mx-auto object-contain"
-      />
-
-      <!-- Usuario -->
-      <div class="inline-flex flex-col gap-2">
-        <label for="register-username" class="text-[#f9fafb] font-semibold">Usuario</label>
-        <input 
-          id="register-username" 
-          pInputText 
-          [(ngModel)]="registerData.username"
-          class="!bg-white/20 !border-0 !p-4 !text-[#f9fafb] w-full rounded-md"
-        />
-      </div>
-
-      <!-- Email -->
-      <div class="inline-flex flex-col gap-2">
-        <label for="register-email" class="text-[#f9fafb] font-semibold">Email</label>
-        <input 
-          id="register-email" 
-          type="email"
-          pInputText 
-          [(ngModel)]="registerData.email"
-          class="!bg-white/20 !border-0 !p-4 !text-[#f9fafb] w-full rounded-md"
-        />
-      </div>
-
-      <!-- Contraseña -->
-      <div class="inline-flex flex-col gap-2">
-        <label for="register-password" class="text-[#f9fafb] font-semibold">Contraseña</label>
-        <input 
-          id="register-password" 
-          type="password"
-          pInputText 
-          [(ngModel)]="registerData.password"
-          class="!bg-white/20 !border-0 !p-4 !text-[#f9fafb] w-full rounded-md"
-        />
-      </div>
-
-      <!-- Botones -->
-      <div class="flex items-center gap-4 mt-2">
-        <p-button
-          label="Cancelar"
-          (click)="registerDialogVisible = false"
-          [text]="true"
-          styleClass="!p-4 w-full !text-[#f9fafb] !border !border-white/30 hover:!bg-white/10 rounded-md"
-        />
-        <p-button
-          label="Registrarse"
-          (click)="onRegisterSubmit()"
-          [text]="true"
-          styleClass="!p-4 w-full !text-[#f9fafb] !border !border-white/30 hover:!bg-white/10 rounded-md"
-        />
-      </div>
-    </div>
-  </ng-template>
-</p-dialog>
-
-
-
-</div>

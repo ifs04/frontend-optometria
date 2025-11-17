@@ -1,69 +1,60 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { AppointmentService } from '../../../services/appointment.service';
-
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { AppointmentI } from '../../../models/appointment';
-
+import { AuthService } from '../../../services/auth.service';
+import { CardModule } from 'primeng/card';
 
 @Component({
-  selector: 'app-create-appointment',
+  selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule],
-  templateUrl: './create-appointment.html',
-  styleUrl: './create-appointment.css',
-  providers: [MessageService]
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule, CardModule],
+  templateUrl: './login.html',
+  styleUrl: './login.css',
+  providers: [MessageService, AuthService]
 })
-export class CreateAppointment {
-  form;
+export class Login {
+  form: FormGroup;
   loading: boolean = false;
-  statusOptions = [
-    { label: 'Activo', value: 'ACTIVE' },
-    { label: 'Inactivo', value: 'INACTIVE' }
-  ];
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private appointmentService: AppointmentService,
+    private authService: AuthService,
     private messageService: MessageService
   ) {
     this.form = this.fb.group({
-      patient_id: [0,Validators.required],
-      optometrist_id: [ 0,Validators.required],
-      date: ['', Validators.required],
-      reason: ['', Validators.required],
-      status: ['ACTIVE', Validators.required] 
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   submit(): void {
     if (this.form.valid) {
       this.loading = true;
-      const appointmentData = this.form.value as AppointmentI;
+      const credentials = this.form.value;
 
-      this.appointmentService.createAppointment(appointmentData).subscribe({
+      this.authService.login(credentials).subscribe({
         next: (response) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Éxito',
-            detail: 'Cliente creado correctamente'
+            detail: 'Sesión iniciada correctamente'
           });
           setTimeout(() => {
             this.router.navigate(['/appointments']);
           }, 1000);
         },
         error: (error) => {
-          console.error('Error creating client:', error);
+          console.error('Error logging in:', error);
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Error al crear el cliente'
+            detail: 'Credenciales incorrectas'
           });
           this.loading = false;
         }
@@ -78,8 +69,8 @@ export class CreateAppointment {
     }
   }
 
-  cancelar(): void {
-    this.router.navigate(['/appointments']);
+  goToRegister(): void {
+    this.router.navigate(['/register']);
   }
 
   private markFormGroupTouched(): void {
@@ -94,10 +85,7 @@ export class CreateAppointment {
       if (field.errors['required']) return `${fieldName} es requerido`;
       if (field.errors['email']) return 'Email no válido';
       if (field.errors['minlength']) return `${fieldName} debe tener al menos ${field.errors['minlength'].requiredLength} caracteres`;
-      if (field.errors['pattern']) return 'Formato no válido';
     }
     return '';
   }
 }
-
- 

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './guards/authguard';
 import { ShowPatients } from './components/patients/show-patients/show-patients';
 import { ShowVisualHistories } from './components/visual-histories/show-visual-histories/show-visual-histories';
 import { ShowAppointments } from './components/appointments/show-appointments/show-appointments';
@@ -35,163 +36,62 @@ import { CreatePayment } from './components/payments/create-payment/create-payme
 import { UpdatePayment } from './components/payments/update-payment/update-payment';
 import { CreateDelivery } from './components/deliveries/create-delivery/create-delivery';
 import { UpdateDelivery } from './components/deliveries/update-delivery/update-delivery';
+import { Login } from './components/auth/login/login';
+import { Register } from './components/auth/register/register';
 
 export const routes: Routes = [
-     { 
-        path: '', 
-        redirectTo: '/', 
-        pathMatch: 'full' 
-    },
-    {
-        path: "patients",
-        component: ShowPatients
-    },
-    {
-        path: "patients/new",
-        component: CreatePatient
-    },
-    {
-        path: "patients/edit/:id",
-        component: UpdatePatient
-    },
-    {
-        path: "visual-histories",
-        component: ShowVisualHistories
-        
-    },
-    {
-        path: "visual-histories/new",
-        component: CreateVisualHistory
-        
-    },
-    {
-        path: "visual-histories/edit/:id",
-        component: UpdateVisualHistory
-        
-    },
-    {
-        path: "appointments",
-        component: ShowAppointments
-    },
-    {
-        path: "appointments/new",
-        component: CreateAppointment
-    },
-    {
-        path: "appointments/edit/:id",
-        component: UpdateAppointment
-    },
-    {
-        path: "optometrists",
-        component: ShowOptometrists
-    },
-    {
-        path: "optometrists/new",
-        component: CreateOptometrist
-    },
-    {
-        path: "optometrists/edit/:id",
-        component: UpdateOptometrist
-    },
-    {
-        path: "visual-exams",
-        component: ShowVisualExams
-        
-    },
-     {
-        path: "visual-exams/new",
-        component: CreateVisualExam
-        
-    },
-     {
-        path: "visual-exams/edit/:id",
-        component: UpdateVisualExam
-        
-    },
-    {
-        path: "frames",
-        component: ShowFrames
-    },
-    {
-        path: "frames/new",
-        component: CreateFrame
-    },
-    {
-        path: "frames/edit/:id",
-        component: UpdateFrame
-    },
-    {
-        path: "lenses",
-        component: ShowLenses
-    },
-    {
-        path: "lenses/new",
-        component: CreateLens
-    },
-    {
-        path: "lenses/edit/:id",
-        component: UpdateLens
-    },
-    {
-        path: "orders",
-        component: ShowOrders
-    },
-    {
-        path: "orders/new",
-        component: CreateOrder
-    },
-    {
-        path: "orders/edit/:id",
-        component: UpdateOrder
-    },
-    {
-        path: "order-details",
-        component: ShowOrderDetails
-    },
-    {
-        path: "order-details/new",
-        component: CreateOrderDetail
-    },
-    {
-        path: "order-details/edit/:id",
-        component: UpdateOrderDetail
-    },
-    {
-        path: "suppliers",
-        component: ShowSuppliers
-    },
-     {
-        path: "suppliers/new",
-        component: CreateSupplier
-    },
-     {
-        path: "suppliers/edit/:id",
-        component: UpdateSupplier
-    },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 
-    {
-        path: "payments",
-        component: ShowPayments
-    },
-    {
-        path: "payments/new",
-        component: CreatePayment
-    },
-    {
-        path: "payments/edit/:id",
-        component: UpdatePayment
-    },
-    {
-        path: "deliveries",
-        component: ShowDeliveries
-    },
-    {
-        path: "deliveries/new",
-        component: CreateDelivery
-    },
-    {
-        path: "deliveries/edit/:id",
-        component: UpdateDelivery
-    },
+  { path: 'patients', component: ShowPatients, canActivate: [AuthGuard] },
+  { path: 'patients/new', component: CreatePatient, canActivate: [AuthGuard] },
+  { path: 'patients/edit/:id', component: UpdatePatient, canActivate: [AuthGuard] },
 
+  { path: 'visual-histories', component: ShowVisualHistories, canActivate: [AuthGuard] },
+  { path: 'visual-histories/new', component: CreateVisualHistory, canActivate: [AuthGuard] },
+  { path: 'visual-histories/edit/:id', component: UpdateVisualHistory, canActivate: [AuthGuard] },
+
+  { path: 'appointments', component: ShowAppointments, canActivate: [AuthGuard] },
+  { path: 'appointments/new', component: CreateAppointment, canActivate: [AuthGuard] },
+  { path: 'appointments/edit/:id', component: UpdateAppointment, canActivate: [AuthGuard] },
+
+  { path: 'optometrists', component: ShowOptometrists, canActivate: [AuthGuard] },
+  { path: 'optometrists/new', component: CreateOptometrist, canActivate: [AuthGuard] },
+  { path: 'optometrists/edit/:id', component: UpdateOptometrist, canActivate: [AuthGuard] },
+
+  { path: 'visual-exams', component: ShowVisualExams, canActivate: [AuthGuard] },
+  { path: 'visual-exams/new', component: CreateVisualExam, canActivate: [AuthGuard] },
+  { path: 'visual-exams/edit/:id', component: UpdateVisualExam, canActivate: [AuthGuard] },
+
+  { path: 'frames', component: ShowFrames, canActivate: [AuthGuard] },
+  { path: 'frames/new', component: CreateFrame, canActivate: [AuthGuard] },
+  { path: 'frames/edit/:id', component: UpdateFrame, canActivate: [AuthGuard] },
+
+  { path: 'lenses', component: ShowLenses, canActivate: [AuthGuard] },
+  { path: 'lenses/new', component: CreateLens, canActivate: [AuthGuard] },
+  { path: 'lenses/edit/:id', component: UpdateLens, canActivate: [AuthGuard] },
+
+  { path: 'orders', component: ShowOrders, canActivate: [AuthGuard] },
+  { path: 'orders/new', component: CreateOrder, canActivate: [AuthGuard] },
+  { path: 'orders/edit/:id', component: UpdateOrder, canActivate: [AuthGuard] },
+
+  { path: 'order-details', component: ShowOrderDetails, canActivate: [AuthGuard] },
+  { path: 'order-details/new', component: CreateOrderDetail, canActivate: [AuthGuard] },
+  { path: 'order-details/edit/:id', component: UpdateOrderDetail, canActivate: [AuthGuard] },
+
+  { path: 'suppliers', component: ShowSuppliers, canActivate: [AuthGuard] },
+  { path: 'suppliers/new', component: CreateSupplier, canActivate: [AuthGuard] },
+  { path: 'suppliers/edit/:id', component: UpdateSupplier, canActivate: [AuthGuard] },
+
+  { path: 'payments', component: ShowPayments, canActivate: [AuthGuard] },
+  { path: 'payments/new', component: CreatePayment, canActivate: [AuthGuard] },
+  { path: 'payments/edit/:id', component: UpdatePayment, canActivate: [AuthGuard] },
+
+  { path: 'deliveries', component: ShowDeliveries, canActivate: [AuthGuard] },
+  { path: 'deliveries/new', component: CreateDelivery, canActivate: [AuthGuard] },
+  { path: 'deliveries/edit/:id', component: UpdateDelivery, canActivate: [AuthGuard] },
+
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
+
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];

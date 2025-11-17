@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PopoverModule } from 'primeng/popover';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
@@ -10,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -33,50 +35,23 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 export class Header {
   loginDialogVisible: boolean = false;
   registerDialogVisible: boolean = false;
-
+  
   loginData = { username: '', password: '' };
   registerData = { username: '', email: '', password: '' };
-
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router,
+    private authService: AuthService
   ) {}
 
-  showLoginDialog() {
-    this.loginDialogVisible = true;
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
-  showRegisterDialog() {
-    this.registerDialogVisible = true;
-  }
-
-  onLoginSubmit() {
-    console.log('Login:', this.loginData);
-    this.loginDialogVisible = false;
-  }
-
-  onRegisterSubmit() {
-    console.log('Register:', this.registerData);
-    this.registerDialogVisible = false;
-  }
-
-  confirmLogout(event: Event) {
-    this.confirmationService.confirm({
-      target: event.currentTarget ?? undefined,
-      message: '¿Seguro que deseas cerrar sesión?',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.onLogout();
-      }
-    });
-  }
-
-  onLogout() {
-    console.log('Cerrando sesión');
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Sesión cerrada',
-      detail: 'Hasta pronto!'
-    });
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 }
