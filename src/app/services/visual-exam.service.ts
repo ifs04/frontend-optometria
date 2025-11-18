@@ -1,62 +1,72 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { VisualExamI } from '../models/visual-exam';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class VisualExamService {
-  private visualExamsService = new BehaviorSubject<VisualExamI[]>([
-    {
-      id: 1,
-      appointment_id: 1,
-      date: '2025-09-12T10:00:00Z',
-      prescription: 'Paciente con miopía leve',
-      od: {
-        esf: -1.25,
-        cyl: -0.50,
-        axis: 90,
-        dp: 63
-      },
-      oi: {
-        esf: -1.00,
-        cyl: -0.25,
-        axis: 95,
-        dp: 63
-      },
-      status: "ACTIVE"  
-    },
-    {
-      id: 2,
-      appointment_id: 2,
-      date: '2025-09-12T11:00:00Z',
-      prescription: 'Hipermetropía leve, sin astigmatismo',
-      od: {
-        esf: +0.75,
-        cyl: 0,
-        axis: 0,
-        dp: 62
-      },
-      oi: {
-        esf: +0.50,
-        cyl: 0,
-        axis: 0,
-        dp: 62
-      },
-      status: "ACTIVE"
-    },
-   
-  ]);
-  visualExams$ = this.visualExamsService.asObservable();
+  private baseUrl = 'http://localhost:3000/visual-exams/public';
+  private visualExamsSubject = new BehaviorSubject<VisualExamI[]>([]);
+  visualExams$ = this.visualExamsSubject.asObservable();
 
-  getVisualExams() {
-    return this.visualExamsService.value;
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 
-  addVisualExam(visualExam: VisualExamI) {
-    const visualExams = this.visualExamsService.value;
-    visualExam.id = visualExams.length ? Math.max(...visualExams.map(v => v.id ?? 0)) + 1 : 1;
-    this.visualExamsService.next([...visualExams, visualExam]);
+
+  getAllVisualExams(): Observable<VisualExamI[]> {
+    return this.http.get<VisualExamI[]>(this.baseUrl, { headers: this.getHeaders() })
+    // .pipe(
+    //   tap(response => {
+    //       // console.log('Fetched clients:', response);
+    //     })
+    // )
+    ;
+  }
+
+  getVisualExamById(id: number): Observable<VisualExamI> {
+    return this.http.get<VisualExamI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createVisualExam(exam: VisualExamI): Observable<VisualExamI> {
+    return this.http.post<VisualExamI>(this.baseUrl, exam, { headers: this.getHeaders() });
+  }
+
+  updateVisualExam(id: number, exam: VisualExamI): Observable<VisualExamI> {
+    return this.http.patch<VisualExamI>(`${this.baseUrl}/${id}`, exam, { headers: this.getHeaders() });
+  }
+
+  deleteVisualExam(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  deleteVisualExamLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, { headers: this.getHeaders() });
+  }
+
+  // Método para actualizar el estado local de clientes
+  updateLocalVisualExams(exams: VisualExamI[]): void {
+    this.visualExamsSubject.next(exams);
+  }
+
+  refreshClients(): void {
+    this.getAllVisualExams().subscribe(exams => {
+      this.visualExamsSubject.next(exams);
+    });
   }
 }

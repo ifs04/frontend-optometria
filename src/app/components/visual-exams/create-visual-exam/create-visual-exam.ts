@@ -37,8 +37,8 @@ export class CreateVisualExam {
     });
   }
 
-  submit() {
-    if (this.form.valid) {
+  // submit() {
+   /*  if (this.form.valid) {
       const value = this.form.value;
 
       this.visualExamService.addVisualExam({
@@ -63,8 +63,8 @@ export class CreateVisualExam {
       this.router.navigate(['/visual-exams']);
     }
   }
-
+ */
   cancelar() {
     this.router.navigate(['/visual-exams']);
   }
-}
+} 
