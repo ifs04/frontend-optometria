@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AppointmentService } from '../../../services/appointment.service';
@@ -17,7 +16,6 @@ import { AppointmentI } from '../../../models/appointment';
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
-    
     ToastModule
   ],
   templateUrl: './update-appointment.html',

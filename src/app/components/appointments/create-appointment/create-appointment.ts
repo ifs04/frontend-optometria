@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AppointmentService } from '../../../services/appointment.service';
-
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AppointmentI } from '../../../models/appointment';

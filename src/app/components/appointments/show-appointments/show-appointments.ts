@@ -33,8 +33,8 @@ export class ShowAppointments {
     private optometristService: OptometristService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
-  ) {
-  }
+  ) {}
+  
 ngOnInit(): void {
     this.loadAppointments();
   }
@@ -53,7 +53,7 @@ ngOnInit(): void {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error al cargar los appointmente'
+          detail: 'Error al cargar los appointments'
         });
         this.loading = false;
       }
@@ -72,7 +72,7 @@ ngOnInit(): void {
               this.messageService.add({
                 severity: 'success',
                 summary: 'Éxito',
-                detail: 'Cita eliminado correctamente'
+                detail: 'Cita eliminada correctamente'
               });
               this.loadAppointments();
             },

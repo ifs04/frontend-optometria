@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { PatientI } from '../models/patient';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -8,50 +10,63 @@ import { PatientI } from '../models/patient';
 })
 
 export class PatientService {
-private patientsService = new BehaviorSubject<PatientI[]>([
-    {
-      id: 1,
-      name: 'Luisa Daza',
-      age: 30,
-      document_type: 'CC',
-      document_number: '123456789',              
-      gender: 'Female',
-      phone: '3045987612',
-      email: 'luisa@gmail.com',
-      status: "ACTIVE"
-    },
-    {
-      id: 2,
-      name: 'Maria Mengual',
-      age: 20,
-      document_type: 'TI',
-      document_number: '12789631',              
-      gender: 'Female',
-      phone: '3159856612',
-      email: 'Maria@gmail.com',
-      status: "ACTIVE"
-    },
-    {
-    id: 3,
-    name: 'Juan Pérez',
-    age: 45,
-    document_type: 'CC',
-    document_number: '1023456789',
-    gender: 'Male',
-    phone: '3123456789',
-    email: 'juan.perez@gmail.com',
-    status: "ACTIVE"
-  },
-  ]);
-  patients$ = this.patientsService.asObservable();
+  private baseUrl = 'http://localhost:3000/patients/public';
+  private patientsSubject = new BehaviorSubject<PatientI[]>([]);
+  patients$ = this.patientsSubject.asObservable();
 
-  getPatients() {
-    return this.patientsService.value;
+    constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+   private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 
-  addPatient(patient: PatientI) {
-    const patients = this.patientsService.value;
-    patient.id = patients.length ? Math.max(...patients.map(p => p.id ?? 0)) + 1 : 1;
-    this.patientsService.next([...patients, patient]);
+
+   getAllPatients(): Observable<PatientI[]> {
+    return this.http.get<PatientI[]>(this.baseUrl, { headers: this.getHeaders() })
+    // .pipe(
+    //   tap(response => {
+    //       // console.log('Fetched clients:', response);
+    //     })
+    // )
+    ;
+  }
+
+  getPatientById(id: number): Observable<PatientI> {
+    return this.http.get<PatientI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createPatient(patient: PatientI): Observable<PatientI> {
+    return this.http.post<PatientI>(this.baseUrl, patient, { headers: this.getHeaders() });
+  }
+
+  updatePatient(id: number, patient: PatientI): Observable<PatientI> {
+    return this.http.patch<PatientI>(`${this.baseUrl}/${id}`, patient, { headers: this.getHeaders() });
+  }
+
+  deletePatient(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  deletePatientLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, { headers: this.getHeaders() });
+  }
+
+  // Método para actualizar el estado local de clientes
+  updateLocalPatients(patients: PatientI[]): void {
+    this.patientsSubject.next(patients);
+  }
+
+  refreshPatients(): void {
+    this.getAllPatients().subscribe(patients => {
+      this.patientsSubject.next(patients);
+    });
   }
 }

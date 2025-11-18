@@ -12,18 +12,22 @@
   </div>
 
   <p-table
-    [value]="optometrists"
     showGridlines
-    [tableStyle]="{ 'min-width': '50rem' }"
+    stripedRows
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
   >
-    <ng-template pTemplate="header">
+    <ng-template #header>
       <tr>
         <th>ID</th>
         <th>Nombre</th>
         <th>Especialidad</th>
         <th>Teléfono</th>
         <th>Email</th>
-        <th>Estado</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </ng-template>
 
@@ -34,16 +38,27 @@
         <td>{{ optometrist.specialty }}</td>
         <td>{{ optometrist.phone }}</td>
         <td>{{ optometrist.email }}</td>
-        <td>
-          <span
-            class="px-2 py-1 rounded text-xs font-semibold"
-            [ngClass]="{
-              'bg-green-100 text-green-800': optometrist.status === 'ACTIVE',
-              'bg-red-100 text-red-800': optometrist.status === 'INACTIVE'
-            }"
-          >
-            {{ optometrist.status }}
-          </span>
+
+        <!-- ✅ Botones de acción -->
+        <td class="text-center">
+          <div class="flex justify-center gap-2">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-warning"
+              [routerLink]="['/optometrist/edit', optometrist.id]"
+              pTooltip="Editar">
+            </button>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              (click)="deleteOptometrist(optometrist)"
+              pTooltip="Eliminar">
+            </button>
+          </div>
         </td>
       </tr>
     </ng-template>

@@ -1,46 +1,72 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { VisualHistoryI } from '../models/visual-history';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class VisualHistoryService {
-private visualhistoriesService = new BehaviorSubject<VisualHistoryI[]>([
-    {
-      id: 1,
-      patient_id: 1,
-      observations: 'Paciente con miopía leve y astigmatismo. Se recomienda uso de lentes correctivos y seguimiento anual.',
-      date: new Date('2025-10-01'),
-      status: "ACTIVE"
-      
-    },
-    {
-    id: 2,
-    patient_id: 2,
-    observations: 'Hipermetropía leve sin astigmatismo. No requiere corrección inmediata, control en 2 años.',
-    date: new Date('2025-10-05'),
-    status: "INACTIVE"
-   },
-   {
-    id: 3,
-    patient_id: 3,
-    observations: 'Miopía moderada con astigmatismo. Requiere lentes correctivos de uso permanente.',
-    date: new Date('2025-11-12'),
-    status: "ACTIVE"
-  },
-  ]);
-  visualhistories$ = this.visualhistoriesService.asObservable();
+  private baseUrl = 'http://localhost:3000/visual-histories/public';
+  private visualhistoriesSubject = new BehaviorSubject<VisualHistoryI[]>([]);
+  visualhistories$ = this.visualhistoriesSubject.asObservable();
 
-  getHistories() {
-    return this.visualhistoriesService.value;
+
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
   }
 
-  addHistories(visualHistory: VisualHistoryI) {
-    const visualHistories = this.visualhistoriesService.value;
-    visualHistory.id = visualHistories.length ? Math.max(...visualHistories.map(history => history.id ?? 0)) + 1 : 1;
-    this.visualhistoriesService.next([...visualHistories, visualHistory]);
+   getAllVisualHistories(): Observable<VisualHistoryI[]> {
+    return this.http.get<VisualHistoryI[]>(this.baseUrl, { headers: this.getHeaders() })
+    // .pipe(
+    //   tap(response => {
+    //       // console.log('Fetched clients:', response);
+    //     })
+    // )
+    ;
+  }
+
+  getVisualHistoryById(id: number): Observable<VisualHistoryI> {
+    return this.http.get<VisualHistoryI>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createVisualHistory(visualhistory: VisualHistoryI): Observable<VisualHistoryI> {
+    return this.http.post<VisualHistoryI>(this.baseUrl, visualhistory, { headers: this.getHeaders() });
+  }
+
+  updateVisualHistory(id: number, visualhistory: VisualHistoryI): Observable<VisualHistoryI> {
+    return this.http.patch<VisualHistoryI>(`${this.baseUrl}/${id}`, visualhistory, { headers: this.getHeaders() });
+  }
+
+  deleteVisualHistory(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  deleteClientLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`, { headers: this.getHeaders() });
+  }
+
+  // Método para actualizar el estado local de clientes
+  updateLocalVisualHistories(visualhistories: VisualHistoryI[]): void {
+    this.visualhistoriesSubject.next(visualhistories);
+  }
+
+  refreshVisualHistories(): void {
+    this.getAllVisualHistories().subscribe(visualhistories => {
+      this.visualhistoriesSubject.next(visualhistories);
+    });
   }
 }
-

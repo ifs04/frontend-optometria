@@ -39,13 +39,13 @@ export class CreateOptometrist {
   submit() {
     if (this.form.valid) {
       const value = this.form.value;
-      this.optometristService.addOptometrist({
-        name: value.name ?? '',
-        specialty: value.specialty ?? '',
-        phone: value.phone ?? '',
-        email: value.email ?? '',
-        status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE'
-      });
+      // this.optometristService.addOptometrist({
+      //   name: value.name ?? '',
+      //   specialty: value.specialty ?? '',
+      //   phone: value.phone ?? '',
+      //   email: value.email ?? '',
+      //   status: value.status === 'ACTIVE' || value.status === 'INACTIVE' ? value.status : 'ACTIVE'
+      // });
       this.router.navigate(['/optometrists']);
     }
   }
