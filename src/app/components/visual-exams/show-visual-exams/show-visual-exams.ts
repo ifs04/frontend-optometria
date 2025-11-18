@@ -38,6 +38,7 @@ export class ShowVisualExams {
     this.visualExamService.getAllVisualExams().subscribe({
       next: (exams) => {
         this.visualExams = exams;
+        console.log('Loaded visual exams:', exams);
         this.visualExamService.updateLocalVisualExams(exams);
         this.loading = false;
       },

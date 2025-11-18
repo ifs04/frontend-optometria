@@ -58,6 +58,7 @@ export class ShowAppointments {
         this.loading = false;
       }
     });
+    
   }
 
   deleteAppointment(appointment: AppointmentI): void {

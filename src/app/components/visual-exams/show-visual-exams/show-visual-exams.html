@@ -12,9 +12,14 @@
 
   <p-table
     [value]="visualExams"
-    stripedRows="true"
-    responsiveLayout="scroll"
-    [tableStyle]="{ 'min-width': '70rem' }"
+    showGridlines
+    stripedRows
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
+    
   >
     <ng-template pTemplate="header">
       <tr>
@@ -24,13 +29,14 @@
         <th>OD (Esf / Cyl / Eje / DP)</th>
         <th>OI (Esf / Cyl / Eje / DP)</th>
         <th>Receta</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-exam>
       <tr>
         <td>{{ exam.id }}</td>
-        <td>{{ exam.appointmentId }}</td>
+        <td>{{ exam.appointment_id }}</td>
         <td>{{ exam.date | date: 'short' }}</td>
 
         <!-- Ojo Derecho -->
@@ -43,7 +49,7 @@
           </div>
         </td>
 
-        <!-- Ojo Izquierdo -->
+        
         <td>
           <div class="text-sm leading-5">
             <div>Esf: <b>{{ exam.oi.esf }}</b></div>
