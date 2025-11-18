@@ -35,10 +35,10 @@ export class ShowAppointments {
     private messageService: MessageService
   ) {}
   
-ngOnInit(): void {
-    this.loadAppointments();
+  ngOnInit(): void {
+      this.loadAppointments();
   }
-
+  
   loadAppointments(): void {
     this.loading = true;
     this.appointmentService.getAllAppointments().subscribe({
