@@ -12,6 +12,7 @@
   </div>
 
   <p-table
+    [value]="optometrists"
     showGridlines
     stripedRows
     [tableStyle]="{ 'min-width': '60rem' }"
@@ -47,7 +48,7 @@
               type="button"
               icon="pi pi-pencil"
               class="p-button-rounded p-button-text p-button-warning"
-              [routerLink]="['/optometrist/edit', optometrist.id]"
+              [routerLink]="['/optometrists/edit', optometrist.id]"
               pTooltip="Editar">
             </button>
             <button
@@ -64,3 +65,6 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

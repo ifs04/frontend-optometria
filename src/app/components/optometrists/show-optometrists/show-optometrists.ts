@@ -37,7 +37,7 @@ export class ShowOptometrists {
     this.optometristService.getAllOptometrists().subscribe({
       next: (optometrists) => {
         this.optometrists = optometrists;
-        this.optometristService.updateLocalOptometrists(optometrists);
+        this.optometristService.updateLocalOptometrist(optometrists);
         this.loading = false;
       },
       error: (error) => {
