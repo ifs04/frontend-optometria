@@ -3,12 +3,12 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
       <label class="block mb-1 font-semibold">Paciente ID</label>
-      <input pInputText formControlName="patient_id" class="w-full" />
+      <input pInputText formControlName="patient_id" class="w-full" [class.ng-invalid]="form.get('patient_id')?.invalid && form.get('patient_id')?.touched" />
     </div>
 
     <div>
       <label class="block mb-1 font-semibold">Optometrista ID</label>
-      <input pInputText formControlName="optometrist_id" class="w-full" />
+      <input pInputText formControlName="optometrist_id" class="w-full" [class.ng-invalid]="form.get('optometrist_id')?.invalid && form.get('optometrist_id')?.touched" />
     </div>
 
     <div>
@@ -22,7 +22,7 @@
 
     <div>
       <label class="block mb-1 font-semibold">Motivo</label>
-      <input pInputText formControlName="reason" class="w-full" />
+      <input pInputText formControlName="reason" class="w-full"  [class.ng-invalid]="form.get('reason')?.invalid && form.get('reason')?.touched" />
     </div>
   </div>
 
