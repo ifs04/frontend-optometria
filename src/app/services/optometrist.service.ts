@@ -11,12 +11,14 @@ import { AuthService } from './auth.service';
 export class OptometristService {
   private baseUrl = 'http://localhost:3000/optometrists/public';
   private optometristsSubject = new BehaviorSubject<OptometristI[]>([]);
-  optometrists$ = this.optometristsSubject.asObservable();
+  public optometrists$ = this.optometristsSubject.asObservable();
+
 
   constructor(
     private http: HttpClient,
     private authService: AuthService
   ) {}
+
 
   private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
@@ -59,11 +61,11 @@ export class OptometristService {
   }
 
   // Método para actualizar el estado local de clientes
-  updateLocalOptometrists(optometrists: OptometristI[]): void {
-    this.optometristsSubject.next(optometrists);
+  updateLocalOptometrist(optometrist: OptometristI[]): void {
+    this.optometristsSubject.next(optometrist);
   }
 
-  refreshOptometrists(): void {
+  refreshOptrometrists(): void {
     this.getAllOptometrists().subscribe(optometrists => {
       this.optometristsSubject.next(optometrists);
     });
