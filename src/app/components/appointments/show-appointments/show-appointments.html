@@ -35,8 +35,8 @@
     <ng-template #body let-appointment>
       <tr>
         <td>{{ appointment.id }}</td>
-        <td>{{ appointment.patient_id }}</td>
-        <td>{{ appointment.optometrist_id }}</td>
+        <td>{{ getPatientName(appointment.patient_id) }}</td>
+        <td>{{ getOptometristName(appointment.optometrist_id) }}</td>
         <td>{{ appointment.date | date:'dd/MM/yyyy' }}</td>
         <td>{{ appointment.reason }}</td>
 

@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -12,7 +12,6 @@ import { PatientService } from '../../../services/patient.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-
 
 @Component({
   selector: 'app-show-appointments',
@@ -28,37 +27,58 @@ export class ShowAppointments {
   optometrists: OptometristI[] = [];
   loading: boolean = false;
 
-  constructor(private appointmentService: AppointmentService,
+  constructor(
+    private appointmentService: AppointmentService,
     private patientService: PatientService,
     private optometristService: OptometristService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
-  
+
   ngOnInit(): void {
-      this.loadAppointments();
+    this.loadPatients();
+    this.loadOptometrists();
+    this.loadAppointments();
   }
-  
+
   loadAppointments(): void {
     this.loading = true;
     this.appointmentService.getAllAppointments().subscribe({
       next: (appointments) => {
-        console.log('Loaded appointments:', appointments);
         this.appointments = appointments;
-        this.appointmentService.updateLocalAppointments(appointments);
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error loading appointments:', error);
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error al cargar los appointments'
+          detail: 'Error al cargar las citas'
         });
         this.loading = false;
       }
     });
-    
+  }
+
+  loadPatients(): void {
+    this.patientService.getAllPatients().subscribe({
+      next: (patients) => this.patients = patients
+    });
+  }
+
+  loadOptometrists(): void {
+    this.optometristService.getAllOptometrists().subscribe({
+      next: (opto) => this.optometrists = opto
+    });
+  }
+
+  getPatientName(id: number): string {
+    const patient = this.patients.find(p => p.id === id);
+    return patient ? patient.name : 'Paciente no encontrado';
+  }
+
+  getOptometristName(id: number): string {
+    const opto = this.optometrists.find(o => o.id === id);
+    return opto ? opto.name : 'Optometrista no encontrado';
   }
 
   deleteAppointment(appointment: AppointmentI): void {
@@ -77,8 +97,7 @@ export class ShowAppointments {
               });
               this.loadAppointments();
             },
-            error: (error) => {
-              console.error('Error deleting appointment:', error);
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -91,4 +110,3 @@ export class ShowAppointments {
     });
   }
 }
-
