@@ -12,6 +12,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { FrameI } from '../../../models/frame';
 import { FrameService } from '../../../services/frame.service';
+import { SupplierI } from '../../../models/supplier';
+import { SupplierService } from '../../../services/supplier.service';
 
 @Component({
   selector: 'app-show-frames',
@@ -34,30 +36,30 @@ import { FrameService } from '../../../services/frame.service';
 export class ShowFrames implements OnInit {
 
   frames: FrameI[] = [];
+  suppliers: SupplierI[] = [];
   loading: boolean = false;
 
   constructor(
     private frameService: FrameService,
+    private supplierService: SupplierService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
+    this.loadSuppliers();
     this.loadFrames();
   }
 
   loadFrames(): void {
     this.loading = true;
-
     this.frameService.getAllFrames().subscribe({
       next: (frames) => {
-        console.log('Loaded frames:', frames);
         this.frames = frames;
         this.frameService.updateLocalFrames(frames);
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error loading frames:', error);
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -66,6 +68,17 @@ export class ShowFrames implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  loadSuppliers(): void {
+    this.supplierService.getAllSuppliers().subscribe({
+      next: (suppliers) => this.suppliers = suppliers
+    });
+  }
+
+  getSupplierName(id: number): string {
+    const supplier = this.suppliers.find(s => s.id === id);
+    return supplier ? supplier.name : 'Proveedor no encontrado';
   }
 
   deleteFrame(frame: FrameI): void {
@@ -84,8 +97,7 @@ export class ShowFrames implements OnInit {
               });
               this.loadFrames();
             },
-            error: (error) => {
-              console.error('Error deleting frame:', error);
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',

@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { VisualHistoryI } from '../../../models/visual-history';
@@ -13,27 +13,30 @@ import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-show-visual-histories',
-  imports: [TableModule,CommonModule,ButtonModule,RouterModule,ConfirmDialogModule, ToastModule],
+  imports: [TableModule, CommonModule, ButtonModule, RouterModule, ConfirmDialogModule, ToastModule],
   templateUrl: './show-visual-histories.html',
   styleUrl: './show-visual-histories.css',
   encapsulation: ViewEncapsulation.None,
   providers: [ConfirmationService, MessageService]
 })
 export class ShowVisualHistories {
-  visualHistories: VisualHistoryI[] = []
+  visualHistories: VisualHistoryI[] = [];
   patients: PatientI[] = [];
   loading: boolean = false;
 
-  constructor(private visualHistoryService: VisualHistoryService, 
+  constructor(
+    private visualHistoryService: VisualHistoryService,
     private patientService: PatientService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
+    this.loadPatients(); // cargar pacientes primero
     this.loadVisualHistories();
   }
- loadVisualHistories(): void {
+
+  loadVisualHistories(): void {
     this.loading = true;
     this.visualHistoryService.getAllVisualHistories().subscribe({
       next: (visualhistories) => {
@@ -41,8 +44,7 @@ export class ShowVisualHistories {
         this.visualHistoryService.updateLocalVisualHistories(visualhistories);
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error loading visual histories:', error);
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -51,6 +53,17 @@ export class ShowVisualHistories {
         this.loading = false;
       }
     });
+  }
+
+  loadPatients(): void {
+    this.patientService.getAllPatients().subscribe({
+      next: (patients) => this.patients = patients
+    });
+  }
+
+  getPatientName(id: number): string {
+    const patient = this.patients.find(p => p.id === id);
+    return patient ? patient.name : 'Paciente no encontrado';
   }
 
   deleteVisualHistory(visualhistory: VisualHistoryI): void {
@@ -69,8 +82,7 @@ export class ShowVisualHistories {
               });
               this.loadVisualHistories();
             },
-            error: (error) => {
-              console.error('Error deleting visual history:', error);
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',

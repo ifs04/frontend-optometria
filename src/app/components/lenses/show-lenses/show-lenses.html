@@ -47,7 +47,8 @@
             class="text-xs"
           ></p-tag>
         </td>
-        <td>{{ lens.supplier_id }}</td>
+        <td>{{ getSupplierName(lens.supplier_id) }}</td>
+
         <td class="text-center">
           <p-image
             [src]="lens.image"

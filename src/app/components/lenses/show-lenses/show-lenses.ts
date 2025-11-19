@@ -1,37 +1,41 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { TagModule } from 'primeng/tag';
 import { ImageModule } from 'primeng/image';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
 import { LensI } from '../../../models/lens';
 import { LensService } from '../../../services/lens.service';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
-
-
+import { SupplierI } from '../../../models/supplier';
+import { SupplierService } from '../../../services/supplier.service';
 
 @Component({
   selector: 'app-show-lenses',
-  imports: [TableModule, CommonModule, ButtonModule,RouterModule,TagModule,ImageModule,ConfirmDialogModule, ToastModule],
+  imports: [TableModule, CommonModule, ButtonModule, RouterModule, TagModule, ImageModule, ConfirmDialogModule, ToastModule],
   templateUrl: './show-lenses.html',
   styleUrl: './show-lenses.css',
   encapsulation: ViewEncapsulation.None,
   providers: [ConfirmationService, MessageService]
 })
-export class ShowLenses {
+export class ShowLenses implements OnInit {
   lenses: LensI[] = [];
+  suppliers: SupplierI[] = [];
   loading: boolean = false;
 
-constructor(
-  private lensService: LensService,
-  private confirmationService: ConfirmationService,
+  constructor(
+    private lensService: LensService,
+    private supplierService: SupplierService,
+    private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
+    this.loadSuppliers();
     this.loadLenses();
   }
 
@@ -43,8 +47,7 @@ constructor(
         this.lensService.updateLocalLenses(lenses);
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error loading lenses:', error);
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -53,6 +56,17 @@ constructor(
         this.loading = false;
       }
     });
+  }
+
+  loadSuppliers(): void {
+    this.supplierService.getAllSuppliers().subscribe({
+      next: (suppliers) => this.suppliers = suppliers
+    });
+  }
+
+  getSupplierName(id: number): string {
+    const supplier = this.suppliers.find(s => s.id === id);
+    return supplier ? supplier.name : 'Proveedor no encontrado';
   }
 
   deleteLens(lens: LensI): void {
@@ -71,8 +85,7 @@ constructor(
               });
               this.loadLenses();
             },
-            error: (error) => {
-              console.error('Error deleting lens:', error);
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
