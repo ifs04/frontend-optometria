@@ -7,7 +7,7 @@
       <label class="block mb-1 font-semibold">ID de Orden</label>
       <input
         type="number"
-        formControlName="orderId"
+        formControlName="order_id"
         class="w-full p-inputtext rounded border border-gray-300"
         placeholder="Ej: 1"
       />
@@ -15,7 +15,7 @@
 
     <div>
       <label class="block mb-1 font-semibold">Tipo de Producto</label>
-      <select formControlName="productType" class="w-full p-inputtext rounded border border-gray-300">
+      <select formControlName="product_type" class="w-full p-inputtext rounded border border-gray-300">
         <option value="LENS">Lente</option>
         <option value="FRAME">Armazón</option>
       </select>
@@ -23,7 +23,7 @@
 
     <div>
       <label class="block mb-1 font-semibold">Producto</label>
-      <select formControlName="productId" class="w-full p-inputtext rounded border border-gray-300">
+      <select formControlName="product_id" class="w-full p-inputtext rounded border border-gray-300">
         <option value="">Seleccione un producto</option>
         <option *ngFor="let product of availableProducts" [value]="product.id">
           {{ getProductLabel(product) }}
@@ -46,7 +46,7 @@
       <label class="block mb-1 font-semibold">Precio Unitario</label>
       <input
         type="number"
-        formControlName="unitPrice"
+        formControlName="unit_price"
         class="w-full p-inputtext rounded border border-gray-300"
         placeholder="Ej: 150000"
       />
@@ -68,7 +68,7 @@
       <label class="block mb-1 font-semibold">Subtotal</label>
       <input
         type="number"
-        [value]="subtotal"
+        formControlName="subtotal"
         class="w-full p-inputtext rounded border border-gray-300 bg-gray-100"
         readonly
       />

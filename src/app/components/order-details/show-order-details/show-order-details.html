@@ -1,6 +1,6 @@
 <div class="card p-6">
- 
 
+  <!-- Botón agregar -->
   <div class="flex justify-end mb-4">
     <button
       pButton
@@ -8,17 +8,21 @@
       icon="pi pi-plus"
       label="Agregar Detalle"
       class="p-button p-component bg-green-500 hover:bg-green-600 text-white text-base px-5 py-2 rounded"
-      [routerLink]="['/order-details/new']"
-    ></button>
+      [routerLink]="['/order-details/new']">
+    </button>
   </div>
-
 
   <p-table
     [value]="orderDetails"
-    [tableStyle]="{ 'min-width': '70rem' }"
+    [tableStyle]="{ 'min-width': '80rem' }"
     stripedRows
     showGridlines
-  >
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
+
+    <!-- ENCABEZADOS -->
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -30,27 +34,63 @@
         <th>Precio Unitario</th>
         <th>Graduación</th>
         <th>Subtotal</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </ng-template>
 
+    <!-- FILAS -->
     <ng-template pTemplate="body" let-detail>
       <tr>
         <td>{{ detail.id }}</td>
-        <td>{{ detail.orderId }}</td>
+        <td>{{ detail.order_id }}</td>
+
+        <!-- IMAGEN CORREGIDA -->
         <td>
           <img
-            [src]="getProductImage(detail.productType, detail.productId)"
+            [src]="getProductImage(detail.product_type, detail.product_id)"
             alt="Producto"
-            class="w-24 h-auto"
+            class="w-20 h-20 object-contain border rounded bg-white p-1"
           />
         </td>
-        <td>{{ getProductName(detail.productType, detail.productId) }}</td>
-        <td>{{ detail.productType }}</td>
+
+        <!-- INFO -->
+        <td>{{ getProductName(detail.product_type, detail.product_id) }}</td>
+        <td>{{ detail.product_type }}</td>
         <td>{{ detail.quantity }}</td>
-        <td>{{ detail.unitPrice | number:'1.0-0' }}</td>
+        <td>{{ detail.unit_price | number:'1.0-0' }}</td>
         <td>{{ detail.graduation || '-' }}</td>
         <td>{{ detail.subtotal | number:'1.0-0' }}</td>
+
+        <!-- ACCIONES -->
+        <td class="text-center">
+          <div class="flex justify-center gap-2">
+
+            <!-- Editar -->
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-warning"
+              [routerLink]="['/order-details/edit', detail.id]"
+              pTooltip="Editar">
+            </button>
+
+            <!-- Eliminar -->
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              (click)="deleteOrderDetail(detail)"
+              pTooltip="Eliminar">
+            </button>
+          </div>
+        </td>
       </tr>
     </ng-template>
+
   </p-table>
 </div>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
