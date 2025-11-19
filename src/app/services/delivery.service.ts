@@ -1,38 +1,57 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { DeliveryI } from '../models/delivery';
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeliveryService {
-private deliveriesService = new BehaviorSubject<DeliveryI[]>([
-    {
-      id: 1,
-      order_id: 1,
-      date: '2025-09-10',
-      status: 'ACTIVE',
-      observations: 'Esperando confirmación del cliente'
-    },
-    {
-      id: 2,
-      order_id:2,
-      date: '2025-09-11',
-      status: 'INACTIVE',
-      observations: 'Entregado en la óptica central'
-    }
-  ]);
-  deliveries$ = this.deliveriesService.asObservable();
+  private baseUrl = 'http://localhost:3000/deliveries/public';
+  private deliveriesSubject = new BehaviorSubject<DeliveryI[]>([]);
+  public deliveries$ = this.deliveriesSubject.asObservable();
 
-  getDeliveries() {
-    return this.deliveriesService.value;
+  constructor(private http: HttpClient) {}
+
+  // Obtener todas las entregas
+  getAllDeliveries(): Observable<DeliveryI[]> {
+    return this.http.get<DeliveryI[]>(this.baseUrl);
   }
 
-  addDelivery(delivery: DeliveryI) {
-    const deliveries = this.deliveriesService.value;
-    delivery.id = deliveries.length ? Math.max(...deliveries.map(d => d.id ?? 0)) + 1 : 1;
-    this.deliveriesService.next([...deliveries, delivery]);
+  // Obtener entrega por id
+  getDeliveryById(id: number): Observable<DeliveryI> {
+    return this.http.get<DeliveryI>(`${this.baseUrl}/${id}`);
+  }
+
+  // Crear entrega
+  createDelivery(delivery: DeliveryI): Observable<DeliveryI> {
+    return this.http.post<DeliveryI>(this.baseUrl, delivery);
+  }
+
+  // Actualizar entrega
+  updateDelivery(id: number, delivery: DeliveryI): Observable<DeliveryI> {
+    return this.http.patch<DeliveryI>(`${this.baseUrl}/${id}`, delivery);
+  }
+
+  // Eliminar entrega
+  deleteDelivery(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  // Soft delete (si tu backend lo maneja)
+  deleteDeliveryLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`);
+  }
+
+  // Actualizar estado local
+  updateLocalDeliveries(deliveries: DeliveryI[]): void {
+    this.deliveriesSubject.next(deliveries);
+  }
+
+  // Recargar desde el backend
+  refreshDeliveries(): void {
+    this.getAllDeliveries().subscribe(deliveries => {
+      this.deliveriesSubject.next(deliveries);
+    });
   }
 }

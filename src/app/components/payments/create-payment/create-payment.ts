@@ -49,7 +49,7 @@ export class CreatePayment {
         status: raw.status as 'ACTIVE' | 'INACTIVE', 
       };
 
-      this.paymentService.addPayment(payment);
+      this.paymentService.createPayment(payment);
       this.router.navigate(['/payments']);
     }
   }

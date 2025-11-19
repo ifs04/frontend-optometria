@@ -71,7 +71,7 @@ getProductLabel(product: LensI | FrameI): string {
   submit() {
     if (this.form.valid) {
       const value = this.form.value;
-      this.orderDetailService.addOrderDetail({
+      this.orderDetailService.createOrderDetail({
         order_id: Number(value.order_id),
         product_type: value.product_type as 'LENS' | 'FRAME',
         product_id: Number(value.product_id),

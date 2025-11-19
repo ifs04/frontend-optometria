@@ -7,15 +7,15 @@
     <div>
       <label class="block mb-2 text-lg font-semibold">Orden</label>
       <select 
-        formControlName="orderId" 
+        formControlName="order_id" 
         class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300"
-        [ngClass]="{'border-red-500': form.get('orderId')?.invalid && form.get('orderId')?.touched}"
+        [ngClass]="{'border-red-500': form.get('order_id')?.invalid && form.get('order_id')?.touched}"
       >
         <option *ngFor="let order of orders" [value]="order.id">
           Orden #{{ order.id }} — {{ order.total | currency:'COP' }}
         </option>
       </select>
-      <p class="text-red-500 text-sm mt-1" *ngIf="form.get('orderId')?.invalid && form.get('orderId')?.touched">
+      <p class="text-red-500 text-sm mt-1" *ngIf="form.get('order_id')?.invalid && form.get('order_id')?.touched">
         Por favor selecciona una orden.
       </p>
     </div>
@@ -42,9 +42,9 @@
         class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300"
         [ngClass]="{'border-red-500': form.get('status')?.invalid && form.get('status')?.touched}"
       >
-        <option value="PENDING">Pendiente</option>
-        <option value="READY">Listo para entregar</option>
-        <option value="DELIVERED">Entregado</option>
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+        
       </select>
       <p class="text-red-500 text-sm mt-1" *ngIf="form.get('status')?.invalid && form.get('status')?.touched">
         Por favor selecciona un estado.
