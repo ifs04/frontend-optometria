@@ -1,5 +1,4 @@
 <div class="card p-4">
-
   <div class="flex justify-end mb-4">
     <p-button
       type="button"
@@ -9,7 +8,17 @@
     ></p-button>
   </div>
 
-  <p-table [value]="lenses" [tableStyle]="{ 'min-width': '70rem' }" showGridlines>
+  <p-table 
+    [value]="lenses" 
+    [tableStyle]="{ 'min-width': '70rem' }" 
+    showGridlines
+    stripedRows
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
+  >
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -20,6 +29,7 @@
         <th>Stock</th>
         <th>Proveedor</th>
         <th>Imagen</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </ng-template>
 
@@ -37,25 +47,44 @@
             class="text-xs"
           ></p-tag>
         </td>
-        <td>{{ lens.supplierId }}</td>
+        <td>{{ lens.supplier_id }}</td>
         <td>
-          <p-image 
+          <p-image
             [src]="lens.image" 
             alt="{{ lens.type }}" 
-            width="80"
-            height="50" 
-            [preview]="true">
+            width="50"
+            height="35"
+            [preview]="true"> 
           </p-image>
         </td>
-      </tr>
-    </ng-template>
-
-    <ng-template pTemplate="footer">
-      <tr>
-        <td colspan="8" class="text-right font-medium">
-          En total hay {{ lenses.length }} lentes registrados.
+        <!-- ✅ Botones de acción -->
+        <td class="text-center">
+          <div class="flex justify-center gap-2">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-warning"
+              [routerLink]="['/lenses/edit', lens.id]"
+              pTooltip="Editar">
+            </button>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              (click)="deleteLens(lens)"
+              pTooltip="Eliminar">
+            </button>
+          </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+
+
+

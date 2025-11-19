@@ -58,10 +58,32 @@
             <div>DP: <b>{{ exam.oi.dp }}</b></div>
           </div>
         </td>
-
-        <!-- Receta -->
         <td>{{ exam.prescription }}</td>
+        <!-- ✅ Botones de acción -->
+        <td class="text-center">
+          <div class="flex justify-center gap-2">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-warning"
+              [routerLink]="['/visual-exams/edit', exam.id]"
+              pTooltip="Editar">
+            </button>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              (click)="deleteVisualExam(exam)"
+              pTooltip="Eliminar">
+            </button>
+          </div>
+        </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

@@ -33,7 +33,7 @@ constructor(
       this.orderDetails = data;
     });
 
-    this.lenses = this.lensService.getLenses();
+    // this.lenses = this.lensService.getLenses();
     this.frames = this.frameService.getFrames();
   }
 

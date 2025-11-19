@@ -1,1 +1,90 @@
-<p>update-visual-exam works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Editar Examen Visual</h2>
+
+   
+    <div>
+      <label class="block mb-1 font-semibold">ID Cita</label>
+      <input pInputText formControlName="appointment_id" class="w-full" />
+    </div>
+
+    <div>
+      <label class="block mb-1 font-semibold">Fecha</label>
+      <input pInputText type="date" formControlName="date" class="w-full" />
+    </div>
+
+
+    <div class="md:col-span-2">
+      <label class="block mb-1 font-semibold">Prescripción</label>
+      <textarea pInputText formControlName="prescription" class="w-full"></textarea>
+    </div>
+
+    
+    <div class="md:col-span-2">
+      <h3 class="font-bold text-lg mt-4 mb-2">Ojo Derecho (OD)</h3>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label class="block mb-1 font-semibold">Esfera</label>
+          <input pInputText formControlName="odEsf" class="w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold">Cilindro</label>
+          <input pInputText formControlName="odCyl" class="w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold">Eje</label>
+          <input pInputText formControlName="odAxis" class="w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold">DP</label>
+          <input pInputText formControlName="odDp" class="w-full" />
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="md:col-span-2">
+      <h3 class="font-bold text-lg mt-4 mb-2">Ojo Izquierdo (OI)</h3>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label class="block mb-1 font-semibold">Esfera</label>
+          <input pInputText formControlName="oiEsf" class="w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold">Cilindro</label>
+          <input pInputText formControlName="oiCyl" class="w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold">Eje</label>
+          <input pInputText formControlName="oiAxis" class="w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold">DP</label>
+          <input pInputText formControlName="oiDp" class="w-full" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="flex justify-center mt-6">
+    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-primary text-white"
+        label="Actualizar"
+        icon="pi pi-save"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        class="p-button p-component p-button-secondary"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>
