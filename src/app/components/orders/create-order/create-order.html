@@ -6,7 +6,7 @@
 
     <div>
       <label class="block mb-1 font-semibold">Paciente</label>
-      <select formControlName="patientId" class="w-full p-inputtext rounded border border-gray-300">
+      <select formControlName="patient_id" class="w-full p-inputtext rounded border border-gray-300">
         <option value="">Seleccione un paciente</option>
         <option *ngFor="let patient of patients" [value]="patient.id">
           {{ patient.name }}
@@ -17,7 +17,7 @@
  
     <div>
       <label class="block mb-1 font-semibold">Optometra</label>
-      <select formControlName="optometristId" class="w-full p-inputtext rounded border border-gray-300">
+      <select formControlName="optometrist_id" class="w-full p-inputtext rounded border border-gray-300">
         <option value="">Seleccione un optometra</option>
         <option *ngFor="let opto of optometrists" [value]="opto.id">
           {{ opto.name }}
@@ -50,10 +50,9 @@
     <div>
       <label class="block mb-1 font-semibold">Estado</label>
       <select formControlName="status" class="w-full p-inputtext rounded border border-gray-300">
-        <option value="PENDING">Pendiente</option>
-        <option value="IN_PROCESS">En proceso</option>
-        <option value="DELIVERED">Entregado</option>
-        <option value="CANCELLED">Cancelado</option>
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+        
       </select>
     </div>
   </div>

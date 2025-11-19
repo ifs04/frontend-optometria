@@ -33,8 +33,8 @@ constructor(
       this.orderDetails = data;
     });
 
-    // this.lenses = this.lensService.getLenses();
-    this.frames = this.frameService.getFrames();
+    this.lenses = this.lensService.getLenses();
+   
   }
 
   getProductName(type: 'LENS' | 'FRAME', id: number): string {

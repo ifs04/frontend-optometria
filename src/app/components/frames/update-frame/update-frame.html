@@ -1,1 +1,74 @@
-<p>update-frame works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()" class="w-full p-6 bg-white rounded shadow">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Marca -->
+    <div>
+      <label class="block mb-1 font-semibold">Marca</label>
+      <input pInputText formControlName="brand" class="w-full" placeholder="Ej: Ray-Ban" />
+    </div>
+
+    <!-- Modelo -->
+    <div>
+      <label class="block mb-1 font-semibold">Modelo</label>
+      <input pInputText formControlName="model" class="w-full" placeholder="Ej: RB2140" />
+    </div>
+
+    <!-- Material -->
+    <div>
+      <label class="block mb-1 font-semibold">Material</label>
+      <input pInputText formControlName="material" class="w-full" placeholder="Ej: Acetato, Metal..." />
+    </div>
+
+    <!-- Color -->
+    <div>
+      <label class="block mb-1 font-semibold">Color</label>
+      <input pInputText formControlName="color" class="w-full" placeholder="Ej: Negro" />
+    </div>
+
+    <!-- Precio -->
+    <div>
+      <label class="block mb-1 font-semibold">Precio</label>
+      <input type="number" pInputText formControlName="price" class="w-full" placeholder="Ej: 150000" />
+    </div>
+
+    <!-- Stock -->
+    <div>
+      <label class="block mb-1 font-semibold">Stock</label>
+      <input type="number" pInputText formControlName="stock" class="w-full" placeholder="Ej: 10" />
+    </div>
+
+    <!-- Proveedor -->
+    <div>
+      <label class="block mb-1 font-semibold">Proveedor (ID)</label>
+      <input type="number" pInputText formControlName="supplier_id" class="w-full" placeholder="Ej: 1" />
+    </div>
+
+    <!-- Imagen -->
+    <div>
+      <label class="block mb-1 font-semibold">URL Imagen</label>
+      <input pInputText formControlName="image" class="w-full" placeholder="https://..." />
+    </div>
+
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-center mt-6">
+    <div class="bg-gray-100 rounded p-4 flex gap-4 items-center">
+      <button
+        pButton
+        type="submit"
+        class="p-button p-component bg-primary text-white"
+        label="Guardar"
+        icon="pi pi-save"
+      ></button>
+      <button
+        pButton
+        type="button"
+        class="p-button p-component p-button-secondary"
+        label="Cancelar"
+        icon="pi pi-times"
+        (click)="cancelar()"
+      ></button>
+    </div>
+  </div>
+</form>

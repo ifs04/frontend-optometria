@@ -6,27 +6,95 @@ import { RouterModule } from '@angular/router';
 import { TagModule } from 'primeng/tag';
 import { RatingModule } from 'primeng/rating';
 import { ImageModule } from 'primeng/image';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
 import { FrameI } from '../../../models/frame';
 import { FrameService } from '../../../services/frame.service';
 
-
 @Component({
   selector: 'app-show-frames',
-  imports: [TableModule,CommonModule,ButtonModule,RouterModule,TagModule,RatingModule, ImageModule],
+  imports: [
+    TableModule,
+    CommonModule,
+    ButtonModule,
+    RouterModule,
+    TagModule,
+    RatingModule,
+    ImageModule,
+    ConfirmDialogModule,
+    ToastModule
+  ],
   templateUrl: './show-frames.html',
   styleUrl: './show-frames.css',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [ConfirmationService, MessageService]
 })
-export class ShowFrames {
-  frames: FrameI[] = [];
+export class ShowFrames implements OnInit {
 
-  constructor(private frameService: FrameService) {}
-  ngOnInit() {
-    
-    this.frameService.frames$.subscribe((data) => {
-      this.frames = data;
-    });
-    
+  frames: FrameI[] = [];
+  loading: boolean = false;
+
+  constructor(
+    private frameService: FrameService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadFrames();
   }
 
+  loadFrames(): void {
+    this.loading = true;
+
+    this.frameService.getAllFrames().subscribe({
+      next: (frames) => {
+        console.log('Loaded frames:', frames);
+        this.frames = frames;
+        this.frameService.updateLocalFrames(frames);
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading frames:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al cargar los marcos'
+        });
+        this.loading = false;
+      }
+    });
+  }
+
+  deleteFrame(frame: FrameI): void {
+    this.confirmationService.confirm({
+      message: `¿Está seguro de eliminar este marco ${frame.id}?`,
+      header: 'Confirmar eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (frame.id) {
+          this.frameService.deleteFrame(frame.id).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Marco eliminado correctamente'
+              });
+              this.loadFrames();
+            },
+            error: (error) => {
+              console.error('Error deleting frame:', error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error al eliminar el marco'
+              });
+            }
+          });
+        }
+      }
+    });
+  }
 }

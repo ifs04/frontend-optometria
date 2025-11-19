@@ -43,8 +43,8 @@ export class CreateOrderDetail {
       status: ['ACTIVE', Validators.required]
     });
 
-    // this.lenses = this.lensService.getLenses();
-    this.frames = this.frameService.getFrames();
+    this.lenses = this.lensService.getLenses();
+    
   }
 
   get subtotal(): number {

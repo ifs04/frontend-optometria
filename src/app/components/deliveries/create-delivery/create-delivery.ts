@@ -34,7 +34,7 @@ export class CreateDelivery {
       observations: ['']
     });
 
-    this.orders = this.orderService.getOrders();
+    
   }
 
   submit() {

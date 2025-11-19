@@ -34,7 +34,7 @@ export class CreatePayment {
       status: ['ACTIVE', Validators.required]
     });
 
-    this.orders = this.orderService.getOrders();
+    
   }
 
   submit() {
