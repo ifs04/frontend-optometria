@@ -43,7 +43,7 @@ export class CreateOrderDetail {
       status: ['ACTIVE', Validators.required]
     });
 
-    this.lenses = this.lensService.getLenses();
+    // this.lenses = this.lensService.getLenses();
     
   }
 

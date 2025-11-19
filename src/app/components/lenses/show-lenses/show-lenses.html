@@ -48,13 +48,16 @@
           ></p-tag>
         </td>
         <td>{{ lens.supplier_id }}</td>
-        <td>
+        <td class="text-center">
           <p-image
-            [src]="lens.image" 
-            alt="{{ lens.type }}" 
-            width="50"
-            height="35"
-            [preview]="true"> 
+            [src]="lens.image"
+            alt="Lens Image"
+            styleClass="rounded-lg shadow-md cursor-pointer"
+            [style]="{width: '70px', height: '45px', objectFit: 'contain'}"
+            [preview]="true"
+            previewWidth="400"
+            previewHeight="280"
+            imageClass="rounded-lg">
           </p-image>
         </td>
         <!-- ✅ Botones de acción -->
