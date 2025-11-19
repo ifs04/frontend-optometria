@@ -5,7 +5,7 @@
     <!-- Orden -->
     <div>
       <label class="block mb-2 text-lg font-semibold">Orden</label>
-      <select formControlName="orderId" class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300">
+      <select formControlName="order_id" class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300">
         <option value="">Seleccione una orden</option>
         <option *ngFor="let order of orders" [value]="order.id">
           Orden #{{ order.id }} — {{ order.total | currency:'COP' }}
@@ -48,9 +48,9 @@
     <div>
       <label class="block mb-2 text-lg font-semibold">Estado</label>
       <select formControlName="status" class="w-full text-base py-2.5 px-4 rounded-lg border border-gray-300">
-        <option value="PENDING">Pendiente</option>
-        <option value="COMPLETED">Completado</option>
-        <option value="FAILED">Fallido</option>
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+        
       </select>
     </div>
   </div>

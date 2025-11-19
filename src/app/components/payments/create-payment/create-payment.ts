@@ -8,24 +8,30 @@ import { OrderI } from '../../../models/order';
 import { PaymentService } from '../../../services/payment.service';
 import { OrderService } from '../../../services/order.service';
 import { PaymentI } from '../../../models/payment';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-create-payment',
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule],
   templateUrl: './create-payment.html',
-  styleUrls: ['./create-payment.css'] // 👈 corregido
+  styleUrls: ['./create-payment.css'],
+  providers: [MessageService]
 })
 export class CreatePayment {
   form: FormGroup;
-  payments: PaymentI[] = [];
-  orders: OrderI[] = [];
+  orders: OrderI[] = []; // ✅ NECESARIO PARA EL HTML
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private paymentService: PaymentService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private messageService: MessageService
   ) {
+
+    // 👇 IMPORTANTE: order_id debe coincidir con el HTML
     this.form = this.fb.group({
       order_id: [null, Validators.required],
       date: [new Date().toISOString().substring(0, 10), Validators.required],
@@ -34,24 +40,59 @@ export class CreatePayment {
       status: ['ACTIVE', Validators.required]
     });
 
-    
+    this.loadOrders(); // ➕ CARGA DE ÓRDENES
+  }
+
+  // 🔄 Cargar órdenes desde backend
+  loadOrders() {
+    this.orderService.getAllOrders().subscribe({
+      next: (orders) => {
+        this.orders = orders;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar las órdenes'
+        });
+      }
+    });
   }
 
   submit() {
-    if (this.form.valid) {
-      const raw = this.form.value;
-
-      const payment: PaymentI = {
-        order_id: Number(raw.order_id),
-        date: raw.date,
-        amount: Number(raw.amount),
-        method: raw.method as 'CASH' | 'CARD' | 'TRANSFER',
-        status: raw.status as 'ACTIVE' | 'INACTIVE', 
-      };
-
-      this.paymentService.createPayment(payment);
-      this.router.navigate(['/payments']);
+    if (!this.form.valid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Advertencia',
+        detail: 'Completa todos los campos.'
+      });
+      return;
     }
+
+    const payment: PaymentI = this.form.value;
+
+    this.paymentService.createPayment(payment).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Pago creado correctamente'
+        });
+
+        this.paymentService.refreshPayments();
+
+        setTimeout(() => {
+          this.router.navigate(['/payments']);
+        }, 1000);
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error al crear el pago'
+        });
+      }
+    });
   }
 
   cancelar() {
