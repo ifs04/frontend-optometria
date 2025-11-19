@@ -1,6 +1,6 @@
 <div class="card p-6">
 
-  <!-- Botón agregar -->
+  
   <div class="flex justify-end mb-4">
     <button
       pButton
@@ -22,7 +22,7 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
 
-    <!-- ENCABEZADOS -->
+   
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -38,13 +38,13 @@
       </tr>
     </ng-template>
 
-    <!-- FILAS -->
+    
     <ng-template pTemplate="body" let-detail>
       <tr>
         <td>{{ detail.id }}</td>
         <td>{{ detail.order_id }}</td>
 
-        <!-- IMAGEN CORREGIDA -->
+        
         <td>
           <img
             [src]="getProductImage(detail.product_type, detail.product_id)"
