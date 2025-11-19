@@ -44,7 +44,7 @@ export class CreateOrderDetail {
     });
 
     this.lenses = this.lensService.getLenses();
-    this.frames = this.frameService.getFrames();
+    
   }
 
   get subtotal(): number {

@@ -34,7 +34,7 @@ constructor(
     });
 
     this.lenses = this.lensService.getLenses();
-    this.frames = this.frameService.getFrames();
+   
   }
 
   getProductName(type: 'LENS' | 'FRAME', id: number): string {

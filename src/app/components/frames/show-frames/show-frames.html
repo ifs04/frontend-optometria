@@ -1,16 +1,28 @@
-<div class="card p-4">
+<div class="card p-8">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Gestión de Armazones</h2>
 
-  <div class="flex justify-end mb-4">
-    <p-button
+    <button
+      pButton
       type="button"
+      class="p-button p-component bg-blue-500 hover:bg-blue-600 text-white"
       icon="pi pi-plus"
       label="Nuevo Armazón"
-      [routerLink]="['/frames/new']"
-    ></p-button>
+      [routerLink]="['/frames/new']">
+    </button>
   </div>
 
+  <p-table
+    [value]="frames"
+    showGridlines
+    stripedRows
+    [tableStyle]="{ 'min-width': '70rem' }"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
 
-  <p-table [value]="frames" [tableStyle]="{ 'min-width': '60rem' }" showGridlines>
+    <!-- ENCABEZADO -->
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -21,10 +33,12 @@
         <th>Precio</th>
         <th>Stock</th>
         <th>Proveedor</th>
-        <th>Image</th>
+        <th>Imagen</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </ng-template>
 
+    <!-- CUERPO -->
     <ng-template pTemplate="body" let-frame>
       <tr>
         <td>{{ frame.id }}</td>
@@ -32,33 +46,68 @@
         <td>{{ frame.model }}</td>
         <td>{{ frame.material }}</td>
         <td>{{ frame.color }}</td>
-        <td>{{ frame.price | number:'1.0-0' }}</td>
+        <td>{{ frame.price | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+
         <td>
           <p-tag
             [value]="frame.stock + ' disponibles'"
             severity="success"
-            class="text-xs"
-          ></p-tag>
+            class="text-xs">
+          </p-tag>
         </td>
-        <td>{{ frame.supplierId }}</td>
-        <td>
-          <p-image 
-            [src]="frame.image" 
-            alt="{{ frame.brand }}" 
-            width="80"
-            height="50" 
-            [preview]="true">
+
+        <td>{{ frame.supplier_id }}</td>
+
+        <!-- Imagen mejor presentada -->
+        <td class="text-center">
+          <p-image
+            [src]="frame.image"
+            alt="Frame Image"
+            styleClass="rounded-lg shadow-md cursor-pointer"
+            [style]="{width: '70px', height: '45px', objectFit: 'contain'}"
+            [preview]="true"
+            previewWidth="400"
+            previewHeight="280"
+            imageClass="rounded-lg">
           </p-image>
+        </td>
+
+        <!-- ACCIONES -->
+        <td class="text-center">
+          <div class="flex justify-center gap-2">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-warning"
+              [routerLink]="['/frames/edit', frame.id]"
+              pTooltip="Editar">
+            </button>
+
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              (click)="deleteFrame(frame)"
+              pTooltip="Eliminar">
+            </button>
+          </div>
         </td>
       </tr>
     </ng-template>
 
+    <!-- FOOTER -->
     <ng-template pTemplate="footer">
       <tr>
-        <td colspan="9" class="text-right font-medium">
+        <td colspan="10" class="text-right font-medium">
           En total hay {{ frames.length }} armazones registrados.
         </td>
       </tr>
     </ng-template>
+
   </p-table>
 </div>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

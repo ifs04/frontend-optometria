@@ -1,47 +1,60 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { FrameI } from '../models/frame';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FrameService {
-  private framesService = new BehaviorSubject<FrameI[]>([
-     {
-      id: 1,
-      brand: 'Ray-Ban',
-      model: 'RB2140',
-      material: 'Acetato',
-      color: 'Negro',
-      price: 150000,
-      stock: 10,
-      supplier_id: 1,
-      image: 'https://images2.ray-ban.com//cdn-record-files-pi/46a585d2-0b37-410d-b309-ae90017fd47b/e1fca6ed-1224-4dcb-a5ad-ae90017fda37/0RB3016__1367B1__P21__shad__qt.png?impolicy=RB_Product_clone&width=700&bgc=%23f2f2f2',
-      status: 'ACTIVE'
-    },
-    {
-      id: 2,
-      brand: 'Oakley',
-      model: 'OX3007',
-      material: 'Metal',
-      color: 'Plateado',
-      price: 200000,
-      stock: 5,
-      supplier_id: 2,
-      image: 'https://tiendasoa.com/cdn/shop/files/142.png?v=1725654075&width=1946',
-      status: 'INACTIVE'
 
-    }
-  ]);
-  frames$ = this.framesService.asObservable();
+  private baseUrl = 'http://localhost:3000/frames/public';
+  private framesSubject = new BehaviorSubject<FrameI[]>([]);
+  public frames$ = this.framesSubject.asObservable();
 
-  getFrames() {
-    return this.framesService.value;
+  constructor(
+    private http: HttpClient,
+  ) {}
+
+  // Obtener todos los Frames
+  getAllFrames(): Observable<FrameI[]> {
+    return this.http.get<FrameI[]>(this.baseUrl);
   }
 
-  addFrame(frame: FrameI) {
-    const frames = this.framesService.value;
-    frame.id = frames.length ? Math.max(...frames.map(frame => frame.id ?? 0)) + 1 : 1;
-    this.framesService.next([...frames, frame]);
+  // Obtener un frame por ID
+  getFrameById(id: number): Observable<FrameI> {
+    return this.http.get<FrameI>(`${this.baseUrl}/${id}`);
+  }
+
+  // Crear un frame
+  createFrame(frame: FrameI): Observable<FrameI> {
+    return this.http.post<FrameI>(this.baseUrl, frame);
+  }
+
+  // Actualizar un frame
+  updateFrame(id: number, frame: FrameI): Observable<FrameI> {
+    return this.http.patch<FrameI>(`${this.baseUrl}/${id}`, frame);
+  }
+
+  // Eliminar un frame
+  deleteFrame(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  // Eliminar lógico
+  deleteFrameLogic(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}/logic`);
+  }
+
+  // Actualizar estado local
+  updateLocalFrames(frames: FrameI[]): void {
+    this.framesSubject.next(frames);
+  }
+
+  // Recargar frames desde API
+  refreshFrames(): void {
+    this.getAllFrames().subscribe(frames => {
+      this.framesSubject.next(frames);
+    });
   }
 }
